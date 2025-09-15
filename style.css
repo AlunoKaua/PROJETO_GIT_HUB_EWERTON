@@ -1,0 +1,120 @@
+*{
+ padding: 0;
+ margin: 0;
+  font-family: "Inter", sans-serif;
+}
+
+/* style.css */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: 100vh;
+
+  background: #FAFAFA;
+}
+
+:root{
+    --cor-pricipal:#108446;
+    --cor-segundaria:#FAFAFA;
+    --sombra_de_caixa:5px 4px 12px 0px rgba(0,0,0,0.9);
+}
+header{
+    padding: 6px;
+    background-color:var(--cor-pricipal) ;
+}
+header h1{
+ margin-left: 10px;
+ color: var(--cor-segundaria);
+}
+.logo{
+    display: flex;
+    align-items: center;
+}
+.card-ramen{
+    margin: 10px;
+    background-color: var(--cor-pricipal);
+    color:#FAFAFA ;
+    max-width: 400px;
+    border-radius: 6px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: var(--sombra_de_caixa);
+}
+.card-ramen img{
+    border-radius: 6px;
+}
+.btn {
+  background: #E3F2FD;
+  color: rgb(5, 5, 5);
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 20px 0;
+  transition: background 0.3s;
+}
+
+.btn:hover {
+  background: #c0392b;
+  color:white;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+}
+
+.modal-content {
+  max-height: 80vh;        /* Altura máxima do modal */
+  overflow-y: auto;        /* Ativa scroll vertical se necessário */
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 800px;
+  position: relative;
+  box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+  animation: fadeIn 0.4s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #000;
+}
+
+.recipe-text {
+  margin: 20px 0;
+  line-height: 1.6;
+}
+
+.recipe-video {
+  margin: 30px 0;
+}
+
+.download {
+  background: #27ae60;
+}
+
+.download:hover {
+  background: #229954;
+}

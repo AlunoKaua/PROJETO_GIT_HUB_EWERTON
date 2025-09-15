@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="shortcut icon" href="favi_icons/favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <title>Cook & Learn</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="logo">
+        <img src="imagens/apple-touch-icon.png" alt="" height="60px">
+        <h1> Cook & Learn</h1>
+    </div>
+    </header>
+  <div class="card-ramen">
+    <img src="imagens/ramen-caseiro.png" alt="ramen_caseiro"    >
+      <h1>Ramen Caseiro em Japonês 🍜</h1>
+      <!-- Botão que abre o popup -->
+      <button id="openPdfModal" class="btn">📄 Gerar PDF da Receita</button>
+  </div>
+
+  <!-- Modal (Popup) -->
+  <div id="pdfModal" class="modal">
+    <div class="modal-content">
+      <span id="closeModal" class="close">&times;</span>
+      
+      <h2>Receita: Ramen Caseiro</h2>
+
+      <!-- Texto da receita -->
+      <div class="recipe-text">
+        <h3>Ingredientes (材料 - zairyō):</h3>
+        <ul>
+          <li>豚骨スープ (tonkotsu sūpu) — Caldo de porco</li>
+          <li>麺 (men) — Macarrão</li>
+          <li>味噌 (miso) — Pasta de soja fermentada</li>
+          <li>卵 (tamago) — Ovo cozido</li>
+        </ul>
+
+        <h3>Modo de Preparo (作り方 - tsukurikata):</h3>
+        <ol>
+          <li>鍋にスープを入れて沸かします。(Nabe ni sūpu o irete wakashimasu.) — Ferva o caldo na panela.</li>
+          <li>麺を茹でます。(Men o yudemasu.) — Cozinhe o macarrão.</li>
+          <li>器に盛り付けて、卵をのせます。(Utsuwa ni moritsukete, tamago o nosesmasu.) — Sirva em tigela e coloque o ovo por cima.</li>
+        </ol>
+      </div>
+
+      <!-- Vídeo da receita -->
+      <div class="recipe-video">
+        <h3>Assista o passo a passo:</h3>
+        <!-- Substitua pelo seu vídeo (YouTube, Vimeo ou <video> local) -->
+        <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+      </div>
+
+      <!-- Botão para gerar e baixar PDF -->
+      <button id="downloadPdf" class="btn download">⬇️ Baixar PDF Completo</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
