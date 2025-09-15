@@ -1,65 +1,1039 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
-    <link rel="shortcut icon" href="favi_icons/favicon.ico" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-  <meta charset="UTF-8" />
-  <title>Cook & Learn</title>
+  <meta charset="UTF-8">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <link rel="stylesheet" href="style.css">
+  <link rel="shortcut icon" href="favi_icons/favicon.ico" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 </head>
 <body>
-  <header>
-    <div class="logo">
-        <img src="imagens/apple-touch-icon.png" alt="" height="60px">
-        <h1> Cook & Learn</h1>
-    </div>
-    </header>
-  <div class="card-ramen">
-    <img src="imagens/ramen-caseiro.png" alt="ramen_caseiro"    >
-      <h1>Ramen Caseiro em Japonês 🍜</h1>
-      <!-- Botão que abre o popup -->
-      <button id="openPdfModal" class="btn">📄 Gerar PDF da Receita</button>
+  <!-- Card 1 -->
+   <!-- Hero Section -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Descubra Sabores do Mundo</h1>
+    <p>Receitas autênticas em seus idiomas originais — do Japão à Espanha, da Índia ao Brasil.</p>
+    <a href="#modal1" class="btn hero-btn">🍽️ Comece com a Paella!</a>
   </div>
+</section>
+<div class="card-ramen">
+  <img src="imagens/paella-espanhola.png" alt="paella_espanhola">
+  <h1>Paella Espanhola em Espanhol 🇪🇸</h1>
+  <button class="btn openPdfModal" data-target="modal1">📄 Ver receita completa</button>
+</div>
 
-  <!-- Modal (Popup) -->
-  <div id="pdfModal" class="modal">
-    <div class="modal-content">
-      <span id="closeModal" class="close">&times;</span>
-      
-      <h2>Receita: Ramen Caseiro</h2>
-
-      <!-- Texto da receita -->
-      <div class="recipe-text">
-        <h3>Ingredientes (材料 - zairyō):</h3>
-        <ul>
-          <li>豚骨スープ (tonkotsu sūpu) — Caldo de porco</li>
-          <li>麺 (men) — Macarrão</li>
-          <li>味噌 (miso) — Pasta de soja fermentada</li>
-          <li>卵 (tamago) — Ovo cozido</li>
-        </ul>
-
-        <h3>Modo de Preparo (作り方 - tsukurikata):</h3>
-        <ol>
-          <li>鍋にスープを入れて沸かします。(Nabe ni sūpu o irete wakashimasu.) — Ferva o caldo na panela.</li>
-          <li>麺を茹でます。(Men o yudemasu.) — Cozinhe o macarrão.</li>
-          <li>器に盛り付けて、卵をのせます。(Utsuwa ni moritsukete, tamago o nosesmasu.) — Sirva em tigela e coloque o ovo por cima.</li>
-        </ol>
-      </div>
-
-      <!-- Vídeo da receita -->
-      <div class="recipe-video">
-        <h3>Assista o passo a passo:</h3>
-        <!-- Substitua pelo seu vídeo (YouTube, Vimeo ou <video> local) -->
-        <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
-      </div>
-
-      <!-- Botão para gerar e baixar PDF -->
-      <button id="downloadPdf" class="btn download">⬇️ Baixar PDF Completo</button>
+<div id="modal1" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal1">&times;</span>
+    <h2>Receita: Paella Espanhola</h2>
+    <div class="recipe-text">
+      <h3>Ingredientes (Ingredientes):</h3>
+      <ul>
+        <li>Arroz — Arroz</li>
+        <li>Azafrán — Açafrão</li>
+        <li>Mariscos — Frutos do mar</li>
+        <li>Pollo — Frango</li>
+      </ul>
+      <h3>Modo de Preparo (Preparación):</h3>
+      <ol>
+        <li>Sofreír el pollo y mariscos. — Refogue o frango e os frutos do mar.</li>
+        <li>Añadir arroz y azafrán. — Adicione o arroz e o açafrão.</li>
+        <li>Cocinar hasta que el arroz esté listo. — Cozinhe até o arroz estar pronto.</li>
+      </ol>
     </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="paella.pdf">⬇️ Baixar PDF Completo</button>
   </div>
+</div>
 
-  <script src="script.js"></script>
+<!-- Card 2 -->
+<div class="card-ramen">
+  <img src="imagens/risoto-italiano.png" alt="risoto_italiano">
+  <h1>Risoto Italiano em Italiano 🇮🇹</h1>
+  <button class="btn openPdfModal" data-target="modal2">📄 Ver receita completa</button>
+</div>
+
+<div id="modal2" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal2">&times;</span>
+    <h2>Receita: Risoto Italiano</h2>
+    <div class="recipe-text">
+      <h3>Ingredientes (Ingredienti):</h3>
+      <ul>
+        <li>Riso — Arroz</li>
+        <li>Vino bianco — Vinho branco</li>
+        <li>Brodo vegetale — Caldo vegetal</li>
+        <li>Formaggio grattugiato — Queijo ralado</li>
+      </ul>
+      <h3>Modo de Preparo (Preparazione):</h3>
+      <ol>
+        <li>Tostare il riso in padella. — Toste o arroz na panela.</li>
+        <li>Aggiungere il vino e il brodo poco alla volta. — Adicione o vinho e o caldo aos poucos.</li>
+        <li>Mescolare fino a cottura. — Mexa até cozinhar.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="risotto.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 3 -->
+<div class="card-ramen">
+  <img src="imagens/feijoada-brasileira.png" alt="feijoada_brasileira">
+  <h1>Feijoada Brasileira em Português 🇧🇷</h1>
+  <button class="btn openPdfModal" data-target="modal3">📄 Ver receita completa</button>
+</div>
+
+<div id="modal3" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal3">&times;</span>
+    <h2>Receita: Feijoada Brasileira</h2>
+    <div class="recipe-text">
+      <h3>Ingredientes:</h3>
+      <ul>
+        <li>Feijão preto</li>
+        <li>Costela de porco</li>
+        <li>Linguiça</li>
+        <li>Orelha de porco</li>
+      </ul>
+      <h3>Modo de Preparo:</h3>
+      <ol>
+        <li>Deixe as carnes de molho por 24h. — Soak the meats for 24 hours.</li>
+        <li>Cozinhe o feijão com as carnes. — Cook the beans with the meats.</li>
+        <li>Sirva com arroz, couve e laranja. — Serve with rice, collard greens, and orange.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="feijoada.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 4 -->
+<div class="card-ramen">
+  <img src="imagens/tacos-mexicanos.png" alt="tacos_mexicanos">
+  <h1>Tacos Mexicanos em Espanhol 🇲🇽</h1>
+  <button class="btn openPdfModal" data-target="modal4">📄 Ver receita completa</button>
+</div>
+
+<div id="modal4" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal4">&times;</span>
+    <h2>Receita: Tacos Mexicanos</h2>
+    <div class="recipe-text">
+      <h3>Ingredientes (Ingredientes):</h3>
+      <ul>
+        <li>Tortillas de maíz — Tortilhas de milho</li>
+        <li>Carne molida — Carne moída</li>
+        <li>Cebolla — Cebola</li>
+        <li>Cilantro — Coentro</li>
+      </ul>
+      <h3>Modo de Preparo (Preparación):</h3>
+      <ol>
+        <li>Cocinar la carne con cebolla. — Cozinhe a carne com cebola.</li>
+        <li>Calentar las tortillas. — Aqueça as tortilhas.</li>
+        <li>Armar los tacos y servir. — Monte os tacos e sirva.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="tacos.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 5 -->
+<div class="card-ramen">
+  <img src="imagens/curry-indiano.png" alt="curry_indiano">
+  <h1>Curry Indiano em Hindi 🇮🇳</h1>
+  <button class="btn openPdfModal" data-target="modal5">📄 Ver receita completa</button>
+</div>
+
+<div id="modal5" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal5">&times;</span>
+    <h2>Receita: Curry Indiano</h2>
+    <div class="recipe-text">
+      <h3>सामग्री (Sāmagrī - Ingredientes):</h3>
+      <ul>
+        <li>मसाले — Masalas (especiarias)</li>
+        <li>नारियल का दूध — Leite de coco</li>
+        <li>चिकन — Frango</li>
+        <li>प्याज — Cebola</li>
+      </ul>
+      <h3>विधि (Vidhi - Modo de Preparo):</h3>
+      <ol>
+        <li>प्याज और मसाले भूनें। — Frite a cebola e as especiarias.</li>
+        <li>चिकन डालें और पकाएं। — Adicione o frango e cozinhe.</li>
+        <li>नारियल का दूध मिलाएं। — Misture o leite de coco.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="curry.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 6 -->
+<div class="card-ramen">
+  <img src="imagens/sushi-japones.png" alt="sushi_japones">
+  <h1>Sushi Japonês em Japonês 🍣</h1>
+  <button class="btn openPdfModal" data-target="modal6">📄 Ver receita completa</button>
+</div>
+
+<div id="modal6" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal6">&times;</span>
+    <h2>Receita: Sushi Japonês</h2>
+    <div class="recipe-text">
+      <h3>材料 (zairyō):</h3>
+      <ul>
+        <li>酢飯 (sumeshi) — Arroz com vinagre</li>
+        <li>海苔 (nori) — Alga marinha</li>
+        <li>マグロ (maguro) — Atum</li>
+        <li>わさび (wasabi) — Wasabi</li>
+      </ul>
+      <h3>作り方 (tsukurikata):</h3>
+      <ol>
+        <li>酢飯を広げます。 — Espalhe o arroz.</li>
+        <li>海苔の上に具をのせます。 — Coloque os ingredientes sobre a alga.</li>
+        <li>巻いて切ります。 — Enrole e corte.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="sushi.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 7 -->
+<div class="card-ramen">
+  <img src="imagens/moussaka-grega.png" alt="moussaka_grega">
+  <h1>Moussaka Grega em Grego 🇬🇷</h1>
+  <button class="btn openPdfModal" data-target="modal7">📄 Ver receita completa</button>
+</div>
+
+<div id="modal7" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal7">&times;</span>
+    <h2>Receita: Moussaka Grega</h2>
+    <div class="recipe-text">
+      <h3>Υλικά (Yliká - Ingredientes):</h3>
+      <ul>
+        <li>Μελιτζάνες — Berinjelas</li>
+        <li>Κιμάς — Carne moída</li>
+        <li>Μπεσαμέλ — Molho bechamel</li>
+        <li>Τυρί — Queijo</li>
+      </ul>
+      <h3>Εκτέλεση (Ektélesi - Modo de Preparo):</h3>
+      <ol>
+        <li>Τηγανίζουμε τις μελιτζάνες. — Fritamos as berinjelas.</li>
+        <li>Ψήνουμε τον κιμά. — Cozinhamos a carne.</li>
+        <li>Στρώνουμε σε ταψί και ψήνουμε. — Montamos em assadeira e assamos.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="moussaka.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 8 -->
+<div class="card-ramen">
+  <img src="imagens/pho-vietnamita.png" alt="pho_vietnamita">
+  <h1>Pho Vietnamita em Vietnamita 🇻🇳</h1>
+  <button class="btn openPdfModal" data-target="modal8">📄 Ver receita completa</button>
+</div>
+
+<div id="modal8" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal8">&times;</span>
+    <h2>Receita: Pho Vietnamita</h2>
+    <div class="recipe-text">
+      <h3>Nguyên liệu (Ingredientes):</h3>
+      <ul>
+        <li>Bánh phở — Macarrão de arroz</li>
+        <li>Nước dùng — Caldo</li>
+        <li>Thịt bò — Carne bovina</li>
+        <li>Hành lá — Cebolinha</li>
+      </ul>
+      <h3>Cách làm (Modo de Preparo):</h3>
+      <ol>
+        <li>Hầm nước dùng trong 6 tiếng. — Cozinhe o caldo por 6 horas.</li>
+        <li>Trần bánh phở. — Escalde o macarrão.</li>
+        <li>Cho thịt, bánh phở vào bát, chan nước dùng. — Coloque carne e macarrão na tigela, despeje o caldo.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="pho.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 9 -->
+<div class="card-ramen">
+  <img src="imagens/pierogi-poloneses.png" alt="pierogi_poloneses">
+  <h1>Pierogi Polonês em Polonês 🇵🇱</h1>
+  <button class="btn openPdfModal" data-target="modal9">📄 Ver receita completa</button>
+</div>
+
+<div id="modal9" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal9">&times;</span>
+    <h2>Receita: Pierogi Polonês</h2>
+    <div class="recipe-text">
+      <h3>Składniki (Ingredientes):</h3>
+      <ul>
+        <li>Mąka — Farinha</li>
+        <li>Farsz — Recheio</li>
+        <li>Cebula — Cebola</li>
+        <li>Masło — Manteiga</li>
+      </ul>
+      <h3>Przygotowanie (Modo de Preparo):</h3>
+      <ol>
+        <li>Zrób ciasto i rozwałkuj. — Faça a massa e abra.</li>
+        <li>Włóż farsz i zlep krawędzie. — Coloque o recheio e feche as bordas.</li>
+        <li>Ugotuj w wodzie i podsmaż na masle. — Cozinhe em água e doure na manteiga.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="pierogi.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 10 -->
+<div class="card-ramen">
+  <img src="imagens/bibimbap-coreano.png" alt="bibimbap_coreano">
+  <h1>Bibimbap Coreano em Coreano 🇰🇷</h1>
+  <button class="btn openPdfModal" data-target="modal10">📄 Ver receita completa</button>
+</div>
+
+<div id="modal10" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal10">&times;</span>
+    <h2>Receita: Bibimbap Coreano</h2>
+    <div class="recipe-text">
+      <h3>재료 (Jaeryo - Ingredientes):</h3>
+      <ul>
+        <li>밥 — Arroz</li>
+        <li>고추장 — Pasta de pimenta</li>
+        <li>야채 — Legumes</li>
+        <li>계란 — Ovo</li>
+      </ul>
+      <h3>만드는 법 (Mandeuneun beop - Modo de Preparo):</h3>
+      <ol>
+        <li>야채를 볶고 계란을 굽습니다. — Salteie os legumes e frite o ovo.</li>
+        <li>그릇에 밥을 담고 재료를 올립니다. — Coloque o arroz na tigela e adicione os ingredientes.</li>
+        <li>고추장과 함께 비벼 먹습니다. — Misture com pasta de pimenta e coma.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="bibimbap.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 11 -->
+<div class="card-ramen">
+  <img src="imagens/couscous-marroquino.png" alt="couscous_marroquino">
+  <h1>Couscous Marroquino em Árabe 🇲🇦</h1>
+  <button class="btn openPdfModal" data-target="modal11">📄 Ver receita completa</button>
+</div>
+
+<div id="modal11" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal11">&times;</span>
+    <h2>Receita: Couscous Marroquino</h2>
+    <div class="recipe-text">
+      <h3>المكونات (Al-mukawwinat - Ingredientes):</h3>
+      <ul>
+        <li>كسكس — Couscous</li>
+        <li>لحم — Carne</li>
+        <li>خضروات — Legumes</li>
+        <li>بهارات — Especiarias</li>
+      </ul>
+      <h3>طريقة التحضير (Tariqat al-tahdir - Modo de Preparo):</h3>
+      <ol>
+        <li>اطبخ اللحم مع الخضار. — Cozinhe a carne com os legumes.</li>
+        <li>أ蒸 couscous على البخار. — Cozinhe o couscous no vapor.</li>
+        <li>قدم مع المرق. — Sirva com o caldo.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="couscous.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 12 -->
+<div class="card-ramen">
+  <img src="imagens/goulash-hungaro.png" alt="goulash_hungaro">
+  <h1>Goulash Húngaro em Húngaro 🇭🇺</h1>
+  <button class="btn openPdfModal" data-target="modal12">📄 Ver receita completa</button>
+</div>
+
+<div id="modal12" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal12">&times;</span>
+    <h2>Receita: Goulash Húngaro</h2>
+    <div class="recipe-text">
+      <h3>Hozzávalók (Ingredientes):</h3>
+      <ul>
+        <li>Marha — Carne bovina</li>
+        <li>Paprika — Pimentão/páprica</li>
+        <li>Hagyma — Cebola</li>
+        <li>Burgonya — Batata</li>
+      </ul>
+      <h3>Elkészítés (Modo de Preparo):</h3>
+      <ol>
+        <li>Süssük meg a húst és a hagymát. — Frite a carne e a cebola.</li>
+        <li>Adjuk hozzá a paprikát és főzzük. — Adicione a páprica e cozinhe.</li>
+        <li>Adjunk hozzá burgonyát és főzzük puhára. — Adicione batatas e cozinhe até ficar macio.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="goulash.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 13 -->
+<div class="card-ramen">
+  <img src="imagens/arepa-venezuelana.png" alt="arepa_venezuelana">
+  <h1>Arepa Venezuelana em Espanhol 🇻🇪</h1>
+  <button class="btn openPdfModal" data-target="modal13">📄 Ver receita completa</button>
+</div>
+
+<div id="modal13" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal13">&times;</span>
+    <h2>Receita: Arepa Venezuelana</h2>
+    <div class="recipe-text">
+      <h3>Ingredientes:</h3>
+      <ul>
+        <li>Harina de maíz precocida — Farinha de milho pré-cozida</li>
+        <li>Agua — Água</li>
+        <li>Sal — Sal</li>
+        <li>Queso — Queijo</li>
+      </ul>
+      <h3>Preparación:</h3>
+      <ol>
+        <li>Mezclar harina, agua y sal. — Misture farinha, água e sal.</li>
+        <li>Formar discos y asar en budare. — Forme discos e asse na chapa.</li>
+        <li>Rellenar con queso y disfrutar. — Recheie com queijo e aproveite.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="arepa.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 14 -->
+<div class="card-ramen">
+  <img src="imagens/poutine-canadense.png" alt="poutine_canadense">
+  <h1>Poutine Canadense em Francês 🇨🇦</h1>
+  <button class="btn openPdfModal" data-target="modal14">📄 Ver receita completa</button>
+</div>
+
+<div id="modal14" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal14">&times;</span>
+    <h2>Receita: Poutine Canadense</h2>
+    <div class="recipe-text">
+      <h3>Ingrédients:</h3>
+      <ul>
+        <li>Frites — Batatas fritas</li>
+        <li>Fromage en grains — Queijo coalho</li>
+        <li>Sauce brune — Molho marrom</li>
+      </ul>
+      <h3>Préparation:</h3>
+      <ol>
+        <li>Faire frire les pommes de terre. — Frite as batatas.</li>
+        <li>Ajouter le fromage. — Adicione o queijo.</li>
+        <li>Verser la sauce chaude par-dessus. — Despeje o molho quente por cima.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="poutine.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 15 -->
+<div class="card-ramen">
+  <img src="imagens/ceviche-peruano.png" alt="ceviche_peruano">
+  <h1>Ceviche Peruano em Espanhol 🇵🇪</h1>
+  <button class="btn openPdfModal" data-target="modal15">📄 Ver receita completa</button>
+</div>
+
+<div id="modal15" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal15">&times;</span>
+    <h2>Receita: Ceviche Peruano</h2>
+    <div class="recipe-text">
+      <h3>Ingredientes:</h3>
+      <ul>
+        <li>Pescado fresco — Peixe fresco</li>
+        <li>Lima — Limão</li>
+        <li>Cebolla morada — Cebola roxa</li>
+        <li>Aji limo — Pimenta</li>
+      </ul>
+      <h3>Preparación:</h3>
+      <ol>
+        <li>Cortar el pescado en cubos. — Corte o peixe em cubos.</li>
+        <li>Marinar con lima y aji. — Marine com limão e pimenta.</li>
+        <li>Mezclar con cebolla y servir frío. — Misture com cebola e sirva frio.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="ceviche.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 16 -->
+<div class="card-ramen">
+  <img src="imagens/pad-thai-tailandes.png" alt="pad_thai_tailandes">
+  <h1>Pad Thai Tailandês em Tailandês 🇹🇭</h1>
+  <button class="btn openPdfModal" data-target="modal16">📄 Ver receita completa</button>
+</div>
+
+<div id="modal16" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal16">&times;</span>
+    <h2>Receita: Pad Thai Tailandês</h2>
+    <div class="recipe-text">
+      <h3>ส่วนผสม (Sùan sǎm - Ingredientes):</h3>
+      <ul>
+        <li>เส้นเล็ก — Macarrão fino</li>
+        <li>กุ้ง — Camarão</li>
+        <li>ถั่วฝักยาว — Feijão longo</li>
+        <li>น้ำปลา — Molho de peixe</li>
+      </ul>
+      <h3>วิธีทำ (Wíthī tham - Modo de Preparo):</h3>
+      <ol>
+        <li>ผัดกุ้งกับน้ำมัน. — Frite o camarão com óleo.</li>
+        <li>ใส่เส้นและน้ำปลา. — Adicione o macarrão e o molho de peixe.</li>
+        <li>ผัดให้เข้ากัน โรยถั่วลิสง. — Misture bem, polvilhe amendoim.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="padthai.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 17 -->
+<div class="card-ramen">
+  <img src="imagens/paodequeijo-brasileiro.png" alt="paodequeijo_brasileiro">
+  <h1>Pão de Queijo em Português 🇧🇷</h1>
+  <button class="btn openPdfModal" data-target="modal17">📄 Ver receita completa</button>
+</div>
+
+<div id="modal17" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal17">&times;</span>
+    <h2>Receita: Pão de Queijo</h2>
+    <div class="recipe-text">
+      <h3>Ingredientes:</h3>
+      <ul>
+        <li>Polvilho doce — Tapioca starch</li>
+        <li>Queijo minas — Minas cheese</li>
+        <li>Ovos — Eggs</li>
+        <li>Óleo — Oil</li>
+      </ul>
+      <h3>Modo de Preparo:</h3>
+      <ol>
+        <li>Misture polvilho com água quente. — Mix tapioca starch with hot water.</li>
+        <li>Adicione ovos, óleo e queijo. — Add eggs, oil, and cheese.</li>
+        <li>Modele bolinhas e asse até dourar. — Shape into balls and bake until golden.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="paoqueijo.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 18 -->
+<div class="card-ramen">
+  <img src="imagens/lasagna-italiana.png" alt="lasagna_italiana">
+  <h1>Lasanha Italiana em Italiano 🇮🇹</h1>
+  <button class="btn openPdfModal" data-target="modal18">📄 Ver receita completa</button>
+</div>
+
+<div id="modal18" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal18">&times;</span>
+    <h2>Receita: Lasanha Italiana</h2>
+    <div class="recipe-text">
+      <h3>Ingredienti:</h3>
+      <ul>
+        <li>Sfoglie — Massa</li>
+        <li>Ragù — Molho de carne</li>
+        <li>Besciamella — Molho bechamel</li>
+        <li>Formaggio — Queijo</li>
+      </ul>
+      <h3>Preparazione:</h3>
+      <ol>
+        <li>Alternare strati di pasta, ragù e besciamella. — Alternate layers of pasta, meat sauce, and bechamel.</li>
+        <li>Cospargere di formaggio. — Sprinkle with cheese.</li>
+        <li>Infornare a 180°C per 30 minuti. — Bake at 180°C for 30 minutes.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="lasagna.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 19 -->
+<div class="card-ramen">
+  <img src="imagens/kimchi-coreano.png" alt="kimchi_coreano">
+  <h1>Kimchi Coreano em Coreano 🇰🇷</h1>
+  <button class="btn openPdfModal" data-target="modal19">📄 Ver receita completa</button>
+</div>
+
+<div id="modal19" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal19">&times;</span>
+    <h2>Receita: Kimchi Coreano</h2>
+    <div class="recipe-text">
+      <h3>재료 (Jaeryo):</h3>
+      <ul>
+        <li>배추 — Repolho napa</li>
+        <li>고추가루 — Pimenta em pó</li>
+        <li>마늘 — Alho</li>
+        <li>생강 — Gengibre</li>
+      </ul>
+      <h3>만드는 법 (Mandeuneun beop):</h3>
+      <ol>
+        <li>배추를 소금에 절입니다. — Salgue o repolho.</li>
+        <li>양념을 버무립니다. — Misture os temperos.</li>
+        <li>용기에 담아 발효시킵니다. — Coloque em recipiente e deixe fermentar.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="kimchi.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 20 -->
+<div class="card-ramen">
+  <img src="imagens/tabbouleh-libanes.png" alt="tabbouleh_libanes">
+  <h1>Tabbouleh Libanês em Árabe 🇱🇧</h1>
+  <button class="btn openPdfModal" data-target="modal20">📄 Ver receita completa</button>
+</div>
+
+<div id="modal20" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal20">&times;</span>
+    <h2>Receita: Tabbouleh Libanês</h2>
+    <div class="recipe-text">
+      <h3>المكونات (Al-mukawwinat):</h3>
+      <ul>
+        <li>برغل — Bulgur</li>
+        <li>بقدونس — Salsinha</li>
+        <li>نعناع — Hortelã</li>
+        <li>ليمون — Limão</li>
+      </ul>
+      <h3>طريقة التحضير (Tariqat al-tahdir):</h3>
+      <ol>
+        <li>انقع البرغل في الماء. — Soak bulgur in water.</li>
+        <li>اخلط مع البقدونس والنعناع. — Mix with parsley and mint.</li>
+        <li>أضف عصير الليمون وزيت الزيتون. — Add lemon juice and olive oil.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="tabbouleh.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 21 -->
+<div class="card-ramen">
+  <img src="imagens/moules-frites-belga.png" alt="moules_frites_belga">
+  <h1>Moules-Frites Belga em Francês 🇧🇪</h1>
+  <button class="btn openPdfModal" data-target="modal21">📄 Ver receita completa</button>
+</div>
+
+<div id="modal21" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal21">&times;</span>
+    <h2>Receita: Moules-Frites Belga</h2>
+    <div class="recipe-text">
+      <h3>Ingrédients:</h3>
+      <ul>
+        <li>Moules — Mexilhões</li>
+        <li>Frites — Batatas fritas</li>
+        <li>Blanc de poireau — Parte branca do alho-porro</li>
+        <li>Vin blanc — Vinho branco</li>
+      </ul>
+      <h3>Préparation:</h3>
+      <ol>
+        <li>Faire revenir le poireau. — Sauté the leek.</li>
+        <li>Ajouter les moules et le vin. — Add mussels and wine.</li>
+        <li>Cuire jusqu’à ouverture, servir avec frites. — Cook until open, serve with fries.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="moules.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 22 -->
+<div class="card-ramen">
+  <img src="imagens/borscht-russo.png" alt="borscht_russo">
+  <h1>Borscht Russo em Russo 🇷🇺</h1>
+  <button class="btn openPdfModal" data-target="modal22">📄 Ver receita completa</button>
+</div>
+
+<div id="modal22" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal22">&times;</span>
+    <h2>Receita: Borscht Russo</h2>
+    <div class="recipe-text">
+      <h3>Ингредиенты (Ingrediyenty):</h3>
+      <ul>
+        <li>Свекла — Beterraba</li>
+        <li>Капуста — Repolho</li>
+        <li>Говядина — Carne bovina</li>
+        <li>Сметана — Creme azedo</li>
+      </ul>
+      <h3>Приготовление (Prigotovleniye):</h3>
+      <ol>
+        <li>Варим бульон с говядиной. — Cook broth with beef.</li>
+        <li>Добавляем свеклу и капусту. — Add beetroot and cabbage.</li>
+        <li>Подаем со сметаной. — Serve with sour cream.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="borscht.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 23 -->
+<div class="card-ramen">
+  <img src="imagens/churros-espanhois.png" alt="churros_espanhois">
+  <h1>Churros Espanhóis em Espanhol 🇪🇸</h1>
+  <button class="btn openPdfModal" data-target="modal23">📄 Ver receita completa</button>
+</div>
+
+<div id="modal23" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal23">&times;</span>
+    <h2>Receita: Churros Espanhóis</h2>
+    <div class="recipe-text">
+      <h3>Ingredientes:</h3>
+      <ul>
+        <li>Harina — Farinha</li>
+        <li>Agua — Água</li>
+        <li>Aceite — Óleo</li>
+        <li>Azúcar — Açúcar</li>
+      </ul>
+      <h3>Preparación:</h3>
+      <ol>
+        <li>Hervir agua con aceite y sal. — Boil water with oil and salt.</li>
+        <li>Añadir harina y mezclar. — Add flour and mix.</li>
+        <li>Freír y espolvorear con azúcar. — Fry and sprinkle with sugar.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="churros.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 24 -->
+<div class="card-ramen">
+  <img src="imagens/samosa-indiano.png" alt="samosa_indiano">
+  <h1>Samosa Indiano em Hindi 🇮🇳</h1>
+  <button class="btn openPdfModal" data-target="modal24">📄 Ver receita completa</button>
+</div>
+
+<div id="modal24" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal24">&times;</span>
+    <h2>Receita: Samosa Indiano</h2>
+    <div class="recipe-text">
+      <h3>सामग्री (Sāmagrī):</h3>
+      <ul>
+        <li>आटा — Farinha</li>
+        <li>आलू — Batata</li>
+        <li>मसाले — Especiarias</li>
+        <li>तेल — Óleo</li>
+      </ul>
+      <h3>विधि (Vidhi):</h3>
+      <ol>
+        <li>आटे का आटा गूंथ लें। — Knead the flour dough.</li>
+        <li>भरावन बनाएं और भरें। — Prepare filling and stuff.</li>
+        <li>तेल में तलें। — Fry in oil.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="samosa.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 25 -->
+<div class="card-ramen">
+  <img src="imagens/tiramisu-italiano.png" alt="tiramisu_italiano">
+  <h1>Tiramisu Italiano em Italiano 🇮🇹</h1>
+  <button class="btn openPdfModal" data-target="modal25">📄 Ver receita completa</button>
+</div>
+
+<div id="modal25" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal25">&times;</span>
+    <h2>Receita: Tiramisu Italiano</h2>
+    <div class="recipe-text">
+      <h3>Ingredienti:</h3>
+      <ul>
+        <li>Savoiardi — Biscoitos champagne</li>
+        <li>Caffè — Café</li>
+        <li>Mascarpone — Mascarpone</li>
+        <li>Cacao amaro — Cacau em pó</li>
+      </ul>
+      <h3>Preparazione:</h3>
+      <ol>
+        <li>Inzuppare i savoiardi nel caffè. — Dip the biscuits in coffee.</li>
+        <li>Alternare con crema di mascarpone. — Alternate with mascarpone cream.</li>
+        <li>Spolverare con cacao e refrigerare. — Dust with cocoa and refrigerate.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="tiramisu.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 26 -->
+<div class="card-ramen">
+  <img src="imagens/falafel-egipcio.png" alt="falafel_egipcio">
+  <h1>Falafel Egípcio em Árabe 🇪🇬</h1>
+  <button class="btn openPdfModal" data-target="modal26">📄 Ver receita completa</button>
+</div>
+
+<div id="modal26" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal26">&times;</span>
+    <h2>Receita: Falafel Egípcio</h2>
+    <div class="recipe-text">
+      <h3>المكونات (Al-mukawwinat):</h3>
+      <ul>
+        <li>فول — Fava</li>
+        <li>ثوم — Alho</li>
+        <li>كزبرة — Coentro</li>
+        <li>زيت للقلي — Óleo para fritar</li>
+      </ul>
+      <h3>طريقة التحضير (Tariqat al-tahdir):</h3>
+      <ol>
+        <li>اطحن الفول مع الثوم والكزبرة. — Grind fava with garlic and coriander.</li>
+        <li>شكل كرات صغيرة. — Shape into small balls.</li>
+        <li>اقليها حتى تصبح ذهبية. — Fry until golden.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="falafel.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 27 -->
+<div class="card-ramen">
+  <img src="imagens/pierogi-russo.png" alt="pierogi_russo">
+  <h1>Pierogi Russo em Russo 🇷🇺</h1>
+  <button class="btn openPdfModal" data-target="modal27">📄 Ver receita completa</button>
+</div>
+
+<div id="modal27" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal27">&times;</span>
+    <h2>Receita: Pierogi Russo</h2>
+    <div class="recipe-text">
+      <h3>Ингредиенты (Ingrediyenty):</h3>
+      <ul>
+        <li>Тесто — Massa</li>
+        <li>Картофель — Batata</li>
+        <li>Сыр — Queijo</li>
+        <li>Лук — Cebola</li>
+      </ul>
+      <h3>Приготовление (Prigotovleniye):</h3>
+      <ol>
+        <li>Сделайте тесто и начинку. — Make dough and filling.</li>
+        <li>Сформируйте пирожки. — Shape the dumplings.</li>
+        <li>Отварите и обжарьте с луком. — Boil and fry with onion.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="pierogirusso.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 28 -->
+<div class="card-ramen">
+  <img src="imagens/gyoza-japones.png" alt="gyoza_japones">
+  <h1>Gyoza Japonês em Japonês 🇯🇵</h1>
+  <button class="btn openPdfModal" data-target="modal28">📄 Ver receita completa</button>
+</div>
+
+<div id="modal28" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal28">&times;</span>
+    <h2>Receita: Gyoza Japonês</h2>
+    <div class="recipe-text">
+      <h3>材料 (zairyō):</h3>
+      <ul>
+        <li>餃子の皮 — Massa de gyoza</li>
+        <li>豚ひき肉 — Carne de porco moída</li>
+        <li>キャベツ — Repolho</li>
+        <li>醤油 — Shoyu</li>
+      </ul>
+      <h3>作り方 (tsukurikata):</h3>
+      <ol>
+        <li>具を混ぜて皮で包みます。 — Misture o recheio e embrulhe na massa.</li>
+        <li>フライパンで焼きます。 — Frite na frigideira.</li>
+        <li>水を入れて蒸し焼きにします。 — Adicione água e cozinhe no vapor.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="gyoza.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 29 -->
+<div class="card-ramen">
+  <img src="imagens/crepe-frances.png" alt="crepe_frances">
+  <h1>Crêpe Francês em Francês 🇫🇷</h1>
+  <button class="btn openPdfModal" data-target="modal29">📄 Ver receita completa</button>
+</div>
+
+<div id="modal29" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal29">&times;</span>
+    <h2>Receita: Crêpe Francês</h2>
+    <div class="recipe-text">
+      <h3>Ingrédients:</h3>
+      <ul>
+        <li>Farine — Farinha</li>
+        <li>Lait — Leite</li>
+        <li>Oeufs — Ovos</li>
+        <li>Beurre — Manteiga</li>
+      </ul>
+      <h3>Préparation:</h3>
+      <ol>
+        <li>Mélanger farine, lait et œufs. — Mix flour, milk, and eggs.</li>
+        <li>Faire cuire dans une poêle beurrée. — Cook in buttered pan.</li>
+        <li>Garnir de sucre, confiture ou Nutella. — Fill with sugar, jam, or Nutella.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="crepe.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
+
+<!-- Card 30 -->
+<div class="card-ramen">
+  <img src="imagens/hummus-libanes.png" alt="hummus_libanes">
+  <h1>Hummus Libanês em Árabe 🇱🇧</h1>
+  <button class="btn openPdfModal" data-target="modal30">📄 Ver receita completa</button>
+</div>
+
+<div id="modal30" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="modal30">&times;</span>
+    <h2>Receita: Hummus Libanês</h2>
+    <div class="recipe-text">
+      <h3>المكونات (Al-mukawwinat):</h3>
+      <ul>
+        <li>حمص — Grão-de-bico</li>
+        <li>طحينة — Tahine</li>
+        <li>ليمون — Limão</li>
+        <li>ثوم — Alho</li>
+      </ul>
+      <h3>طريقة التحضير (Tariqat al-tahdir):</h3>
+      <ol>
+        <li>اطحن الحمص مع الطحينة. — Grind chickpeas with tahini.</li>
+        <li>أضف عصير الليمون والثوم. — Add lemon juice and garlic.</li>
+        <li>قدم مع زيت الزيتون والخبز. — Serve with olive oil and bread.</li>
+      </ol>
+    </div>
+    <div class="recipe-video">
+      <h3>Assista o passo a passo:</h3>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn download" data-pdf="hummus.pdf">⬇️ Baixar PDF Completo</button>
+  </div>
+</div>
 </body>
 </html>
