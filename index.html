@@ -1,261 +1,399 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Descubra Sabores do Mundo</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link rel="icon" href="imagens/apple-touch-icon.png" type="image/png">
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    /* Ensure modal actions are visible and styled */
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 25px;
+      flex-wrap: wrap;
+    }
+    .card-ramen {
+      cursor: pointer; /* Indicate cards are clickable */
+    }
+  </style>
 </head>
-<body>
+
+<body data-theme="dark"> <!-- Added default dark theme -->
+
+  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+
   <header class="main-header" role="banner">
     <div class="header-content">
       <div class="logo-title-group">
-        <img src="imagens/apple-touch-icon.png" alt="Logo do site" height="70px">
-        <h1 class="site-title">Descubra Sabores do Mundo</h1>
+        <img src="imagens/apple-touch-icon.png" width="60" height="60" alt="Logo do site">
+        <h1 class="site-title">Descubra Sabores do Mundo 🌍</h1>
       </div>
-      <nav aria-label="Acessibilidade">
-        <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
-      </nav>
-      <button id="themeToggle" aria-label="Alternar tema claro/escuro" title="Mudar tema">🌙</button>
-      <div class="audio-player" aria-label="Trilha sonora do site" role="region">
-        <audio id="bg-music" loop muted>
-          <source src="lofi.mp3" type="audio/mpeg">
-          Seu navegador não suporta áudio HTML5.
+      <div class="audio-player" role="region" aria-label="Controles de áudio">
+        <audio id="bg-music" preload="metadata">
+          <source src="vide_De_fundo.mp3" type="audio/mpeg">
+          Seu navegador não suporta o elemento de áudio.
         </audio>
-        <button id="playPauseBtn" aria-label="Tocar ou pausar música" tabindex="0">▶️</button>
-        <input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.3" aria-label="Volume da música">
-        <span id="volumeLabel" aria-live="polite" class="visually-hidden">Volume: 30%</span>
+        <button id="playPauseBtn" aria-label="Tocar música">▶️</button>
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" aria-label="Controle de volume">
+        <span id="volumeLabel" class="visually-hidden">Volume: 50%</span>
       </div>
+      <button id="themeToggle" aria-label="Alternar modo escuro">☀️</button>
     </div>
   </header>
 
-  <main id="main-content" tabindex="-1">
-    <section class="hero" aria-label="Introdução">
+  <main id="main-content">
+    <section class="hero" role="region" aria-labelledby="hero-title">
       <div class="hero-content">
-        <h2>Receitas autênticas em seus idiomas originais — do Japão à Espanha, da Índia ao Brasil.</h2>
-        <a href="#modal1" class="btn hero-btn" tabindex="0">🍽️ Comece com a Paella!</a>
-      </div>
-      <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Buscar receita ou ingrediente..." aria-label="Buscar receita">
+        <h2 id="hero-title">Viaje pelo mundo através dos pratos mais autênticos e saborosos!</h2>
+        <a href="#cards" class="btn">Começar a Explorar</a>
       </div>
     </section>
 
-    <section class="cards-container" aria-label="Receitas do mundo">
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Buscar receitas por nome...">
+    </div>
+
+    <div class="cards-container" id="cards">
+
       <!-- Card 1: Paella Espanhola -->
-      <div class="card-ramen">
-        <img src="https://images.unsplash.com/photo-1534080564583-6be75777b70a?w=400&h=300&fit=crop" alt="Paella espanhola tradicional">
+      <div class="card-ramen openPdfModal" data-target="modal1">
+        <img src="https://imgs.search.brave.com/WEKyixmB1Tnn5RCZWExxGBK0d83XZ-0u9U0TskuY2SM/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zMDEu/dmlkZW8uZ2xiaW1n/LmNvbS94NzIwLzEw/NTg0MzI0LmpwZw" alt="Paella espanhola tradicional">
         <h1>Paella Espanhola em Espanhol 🇪🇸</h1>
-        <button class="btn openPdfModal" data-target="modal1">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="paella-espanhola">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Paella%20Espanhola!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="paella.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 2: Risoto Italiano -->
-      <div class="card-ramen">
-        <img src="https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=400&h=300&fit=crop" alt="Risoto italiano cremoso">
+      <div class="card-ramen openPdfModal" data-target="modal2">
+        <img src="https://imgs.search.brave.com/EYOKPi8k2hjXeMKEmovivUEra7bNbNPNZURegnh3Yno/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/ZGVtb3NsYXZ1ZWx0/YWFsZGlhLmNvbS9z/aXRlcy9kZWZhdWx0/L2ZpbGVzL3Jpc290/by5qcGc" alt="Risoto cremoso italiano">
         <h1>Risoto Italiano em Italiano 🇮🇹</h1>
-        <button class="btn openPdfModal" data-target="modal2">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="risoto-italiano">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Risoto%20Italiano!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="risotto.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 3: Feijoada Brasileira -->
-      <div class="card-ramen">
-        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=300&fit=crop" alt="Feijoada brasileira tradicional">
+      <div class="card-ramen openPdfModal" data-target="modal3">
+        <img src="https://imgs.search.brave.com/ofXu4yFUS_3vYYSkEdCfbj8ONX6WNNG8LMRdBdpQW_w/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/Zm90b3MtcHJlbWl1/bS9jb21pZGEtZGUt/ZmVpam9hZGEtYnJh/c2lsZWlyYS12aXN0/YS1zdXBlcmlvci1j/b20tZXNwYWNvLWRl/LWNvcGlhXzcwMjE2/LTEzNzQuanBnP3Nl/bXQ9YWlzX2h5YnJp/ZCZ3PTc0MCZxPTgw" alt="Feijoada brasileira tradicional">
         <h1>Feijoada Brasileira em Português 🇧🇷</h1>
-        <button class="btn openPdfModal" data-target="modal3">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="feijoada-brasileira">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Feijoada%20Brasileira!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="feijoada.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 4: Sushi Japonês -->
-      <div class="card-ramen">
-        <img src="https://images.unsplash.com/photo-1553621042-f6e147245754?w=400&h=300&fit=crop" alt="Sushi japonês variado">
-        <h1>Sushi Japonês em Japonês 🍣</h1>
-        <button class="btn openPdfModal" data-target="modal4">📄 Ver receita completa</button>
+      <div class="card-ramen openPdfModal" data-target="modal4">
+        <img src="https://imgs.search.brave.com/uLHnvujZdxhsqo9vB72b04_mBmULLSIQVEp24msnU88/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvOTE3/OTE5NDQwL3B0L2Zv/dG8vamFwYW5lc2Ut/Zm9vZC5qcGc_cz02/MTJ4NjEyJnc9MCZr/PTIwJmM9bGU0SXZv/dnZ2RE8xRTRtVUF1/SkFpTGRIamhBWjVY/ZXluWFY0M2t4NW8t/TT0" alt="Sushi variado japonês">
+        <h1>Sushi Japonês em Japonês 🇯🇵</h1>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="sushi-japones">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Sushi%20Japonês!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="sushi.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 5: Curry Indiano -->
-      <div class="card-ramen">
-        <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&h=300&fit=crop" alt="Curry indiano aromático">
+      <div class="card-ramen openPdfModal" data-target="modal5">
+        <img src="https://imgs.search.brave.com/0G5rtIVY45F8WWWH9UExJy1C83Y2naVlDbF5SAnxpD0/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/aW5kaWFuZXBhbHZp/YWdnaS5pdC93cC1j/b250ZW50L3VwbG9h/ZHMvMjAyMy8wMS9j/dXJyeS1pbmRpYW5v/LWthcmktMDEuanBn" alt="Curry indiano picante">
         <h1>Curry Indiano em Hindi 🇮🇳</h1>
-        <button class="btn openPdfModal" data-target="modal5">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="curry-indiano">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Curry%20Indiano!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="curry.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 6: Tacos Mexicanos -->
-      <div class="card-ramen">
-        <img src="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=400&h=300&fit=crop" alt="Tacos mexicanos coloridos">
+      <div class="card-ramen openPdfModal" data-target="modal6">
+        <img src="https://imgs.search.brave.com/LIBe1SDDJlCFg3IGFdC6drBnC1TQF4RL5UuksdadTFA/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zd2lm/dGJyLnZ0ZXhpbWcu/Y29tLmJyL2FycXVp/dm9zL3RhY29zLW1l/eGljYW5vcy5qcGc_/dj02Mzc2NjE5MzEy/NTA5MDAwMDA" alt="Tacos mexicanos coloridos">
         <h1>Tacos Mexicanos em Espanhol 🇲🇽</h1>
-        <button class="btn openPdfModal" data-target="modal6">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="tacos-mexicanos">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Tacos%20Mexicanos!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="tacos.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 7: Moussaka Grega -->
-      <div class="card-ramen">
-        <img src="https://media.istockphoto.com/id/2098906001/pt/foto/greek-food-and-moussaka-for-dinner-in-restaurant-meat-meal-on-a-plate-on-table-ready-to-eat.webp?a=1&b=1&s=612x612&w=0&k=20&c=lTbXHSEq6JuogGWjqHY1QzDG2nsXjRo-o8REcJsO2a8=" alt="Moussaka grega">
+      <div class="card-ramen openPdfModal" data-target="modal7">
+        <img src="https://imgs.search.brave.com/1TZZ-D85Ib6ldMW-g2neTbrI3eJyWyOMh7_V1zQT9mU/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzA3LzEyLzU1LzI5/LzM2MF9GXzcxMjU1/MjkxN196S1VkaHg0/a1poT2pMeU1BMUhj/d1dJbEZPWDU0WFBU/Vi5qcGc" alt="Moussaka grega assada">
         <h1>Moussaka Grega em Grego 🇬🇷</h1>
-        <button class="btn openPdfModal" data-target="modal7">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="moussaka-grega">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Moussaka%20Grega!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="moussaka.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 8: Kimchi Coreano -->
-      <div class="card-ramen">
-        <img src="https://images.unsplash.com/photo-1598764316352-f20265e9d12a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8a2ltY2hpJTIwY29yZWFubyUyMGVtJTIwY29yZWFubyUyMCVGMCU5RiU4NyVCMCVGMCU5RiU4NyVCN3xlbnwwfDB8MHx8fDA%3D" alt="Kimchi coreano">
+      <div class="card-ramen openPdfModal" data-target="modal8">
+        <img src="https://imgs.search.brave.com/fspVX35z3WT4G-WEizmT1iyT0swT8z6LkaBrVcqMXII/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMuaXRkZy5jb20u/YnIvaW1hZ2VzLzY0/MC1hdXRvLzQzN2I3/ZjVjYjJlNDRkZjM3/Njg3NjM1NjRjOWQ4/NmQ2L3NodXR0ZXJz/dG9jay0yMDIzNjY1/NjI5LmpwZw" alt="Kimchi coreano fermentado">
         <h1>Kimchi Coreano em Coreano 🇰🇷</h1>
-        <button class="btn openPdfModal" data-target="modal8">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="kimchi-coreano">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Kimchi%20Coreano!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="kimchi.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 9: Ratatouille Francês -->
-      <div class="card-ramen">
-        <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&h=300&fit=crop" alt="Ratatouille francês">
-        <h1>Ratatouille Francês em Francês 🇫🇷</h1>
-        <button class="btn openPdfModal" data-target="modal9">📄 Ver receita completa</button>
+      <div class="card-ramen openPdfModal" data-target="modal9">
+        <img src="https://imgs.search.brave.com/4Z_m0AhUVXXGZOTnMwaMK_GsO_l0m-RRI0XGB0tFx-M/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zMS5h/YmNzdGF0aWNzLmNv/bS9hYmMvc2V2aWxs/YS9tZWRpYS9ndXJt/ZXNldmlsbGEvMjAy/MC8wNS9yYXRhdG91/aWxsZS1yZWNldGEt/cGxhdG8uanBn" alt="Ratatouille francesa colorida">
+        <h1>Ratatouille Francesa em Francês 🇫🇷</h1>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="ratatouille-francesa">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Ratatouille%20Francesa!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="ratatouille.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 10: Pierogi Polonês -->
-      <div class="card-ramen">
-        <img src="https://media.istockphoto.com/id/1452082073/pt/foto/meat-buns.webp?a=1&b=1&s=612x612&w=0&k=20&c=A7x39lNp8OyitUkDHXZj7aKXYYPPfUCoJ7qJjtM7K6E=" alt="Pierogi polonês">
+      <div class="card-ramen openPdfModal" data-target="modal10">
+        <img src="https://imgs.search.brave.com/UXYbk3LSLeOJ2ZyrhZwQSFSrKb9ZdtzqQTnc7OCKI3k/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/cmVjZWl0YXNuZXN0/bGUuY29tLmJyL3Np/dGVzL2RlZmF1bHQv/ZmlsZXMvc3R5bGVz/L3JlY2lwZV9kZXRh/aWxfZGVza3RvcF9u/ZXcvcHVibGljL3Ny/aF9yZWNpcGVzLzc4/NTk5YzI0NjA1M2Zh/NGM4NGMzMjQxYTVl/ZWMyNzM1LmpwZz9p/dG9rPW82dk42QXBv" alt="Pierogi polonês cozidos">
         <h1>Pierogi Polonês em Polonês 🇵🇱</h1>
-        <button class="btn openPdfModal" data-target="modal10">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="pierogi-polones">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Pierogi%20Polonês!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="pierogi.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 11: Biryani Paquistanês -->
-      <div class="card-ramen">
-        <img src="https://imgs.search.brave.com/gKGMEEfVJy3eoRZtjVLaO0es7kNVEYCEOnmURfabikM/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTMz/MzEyNzY2NS9wdC9m/b3RvL2NoaWNrZW4t/YmlyeWFuaS1zcGlj/eS1pbmRpYW4tbWFs/YWJhci1iaXJ5YW5p/LWh5ZGVyYWJhZGkt/YmlyeWFuaS1kdW0t/YmlyaXlhbmktcHVs/YW8tZ29sZGVuLWJv/d2wuanBnP3M9NjEy/eDYxMiZ3PTAmaz0y/MCZjPWZ1TG40bS0x/YWV6MFBPVldGcHFM/c09mMzR1czl0TnNm/WkhhVjlrZzBRUms9" alt="Biryani paquistanês">
+      <div class="card-ramen openPdfModal" data-target="modal11">
+        <img src="https://imgs.search.brave.com/7MocgtHLkYMpVj0fFxo1UpIB6XU8c7IDzvI7CUvDPUs/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTk1/OTQ3MTY3NC9wdC9m/b3RvL2luZGlhbi1i/aXJ5YW5pLWZvb2Qt/c3BpY3ktbXV0dG9u/LWFuZC1jaGlja2Vu/LWJpcnlhbmktZm9v/ZC1hcmFiLWZvb2Qt/a2Fic2FoLW1hbmRp/LW9yLWthYnNhLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1n/ZlB6ZFpuTHJvY1h6/eDVSZGhFWGlCY2VU/Rm1GdEhOZ1d4eGVP/bEF1Njl3PQ" alt="Biryani paquistanês aromático">
         <h1>Biryani Paquistanês em Urdu 🇵🇰</h1>
-        <button class="btn openPdfModal" data-target="modal11">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="biryani-paquistanes">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Biryani%20Paquistanês!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="biryani.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 12: Goulash Húngaro -->
-      <div class="card-ramen">
-        <img src="https://imgs.search.brave.com/lW4Q-CsZEB85YqymokTemMBjuR_QWxbRWUXkyZsv9EI/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTM4/NDg1OTEyOS9wdC9m/b3RvL2h1bmdhcmlh/bi1nb3VsYXNoLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1n/YXVwY1RDOUVTa0Yz/b3dNWFo4a3dkU2V6/aFZIRDFxdjFsUzg0/OXU0WHJ3PQ" alt="Goulash húngaro">
+      <div class="card-ramen openPdfModal" data-target="modal12">
+        <img src="https://imgs.search.brave.com/SNO6MMojkZwZKeoyH-DRtWyUtlw2z5FcN1xvwh-Jx9s/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9jZG4w/LnJlY2V0YXNncmF0/aXMubmV0L2VzL3Bv/c3RzLzcvNy8yL2d1/bGFzaF9vX2dvdWxh/c2hfaHVuZ2Fyb181/NTI3N182MDAuanBn" alt="Goulash húngaro tradicional">
         <h1>Goulash Húngaro em Húngaro 🇭🇺</h1>
-        <button class="btn openPdfModal" data-target="modal12">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="goulash-hungaro">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Goulash%20Húngaro!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="goulash.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 13: Pho Vietnamita -->
-      <div class="card-ramen">
-        <img src="https://imgs.search.brave.com/QKXlIuijA0fgzKuO1DgQB7l3tNCwwa_Nat7xxIN9lpA/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/cmVjZXRhc2RlcmVj/aHVwZXRlLmNvbS93/cC1jb250ZW50L3Vw/bG9hZHMvMjAyMS8w/My9zb3BhLXBoby1w/YXNvLTctMTIwMHg4/MjguanBn" alt="Pho vietnamita">
+      <div class="card-ramen openPdfModal" data-target="modal13">
+        <img src="https://imgs.search.brave.com/QKXlIuijA0fgzKuO1DgQB7l3tNCwwa_Nat7xxIN9lpA/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/cmVjZXRhc2RlcmVj/aHVwZXRlLmNvbS93/cC1jb250ZW50L3Vw/bG9hZHMvMjAyMS8w/My9zb3BhLXBoby1w/YXNvLTctMTIwMHg4/MjguanBn" alt="Pho vietnamita servido">
         <h1>Pho Vietnamita em Vietnamita 🇻🇳</h1>
-        <button class="btn openPdfModal" data-target="modal13">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="pho-vietnamita">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Pho%20Vietnamita!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="pho.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 14: Falafel Libanês -->
-      <div class="card-ramen">
-        <img src="https://imgs.search.brave.com/gLyP2HDMWAHBDYAhc0p9b1V_Fh4pI8TNDxD0Y__qizE/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9jZG4w/LnR1ZG9yZWNlaXRh/cy5jb20vcHQvcG9z/dHMvMi83LzgvZmFs/YWZlbF9hc3NhZG9f/Y3JvY2FudGVfb3Jp/Z2luYWxfYXJhYmVf/MTA4NzJfNjAwLmpw/Zw" alt="Falafel libanês">
+      <div class="card-ramen openPdfModal" data-target="modal14">
+        <img src="https://imgs.search.brave.com/QRpjni6tt4ID_RRyrV3GA3aKZB2kBYMj-lR8kJEa9bQ/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/cmVjZWl0ZXJpYS5j/b20uYnIvd3AtY29u/dGVudC91cGxvYWRz/L2ZhbGFmZWwtbGli/YW5lcy03MzB4NDgw/LmpwZw" alt="Falafel libanês crocante">
         <h1>Falafel Libanês em Árabe 🇱🇧</h1>
-        <button class="btn openPdfModal" data-target="modal14">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="falafel-libanes">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Falafel%20Libanês!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="falafel.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 15: Poutine Canadense -->
-      <div class="card-ramen">
-        <img src="https://imgs.search.brave.com/oj6hwwrnoykxoHUnRTPKryoTtSdZU6ueYm54sAhotVI/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTU0/OTU5NjY4L3B0L2Zv/dG8vZnJhbmMlQzMl/QUFzLWRvLWNhbmFk/JUMzJUExLXBvdXRp/bmUtY2wlQzMlQTFz/c2ljby5qcGc/cz02/MTJ4NjEyJnc9MCZr/PTIwJmM9amNMX1k3/MjRBUGJsSkQ1LXNC/Y0x3TDFFZS00MVEt/QTVYZFRncjdvOVRT/dz0" alt="Poutine canadense">
-        <h1>Poutine Canadense em Inglês 🇨🇦</h1>
-        <button class="btn openPdfModal" data-target="modal15">📄 Ver receita completa</button>
+      <div class="card-ramen openPdfModal" data-target="modal15">
+        <img src="https://imgs.search.brave.com/kGIgz-Hht2VQOUjQBChnkWFnT4YtDenWylr8e4Nj1tM/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTE3/MTQ3NTAyL3B0L2Zv/dG8vZnJhbmMlQzMl/QUFzLWRvLWNhbmFk/JUMzJUExLXBvdXRp/bmUtY2wlQzMlQTFz/c2ljby5qcGc_cz02/MTJ4NjEyJnc9MCZr/PTIwJmM9cjZmSGFy/QWJSdTNBUzdWUXJi/X3B5c3BzMGNodGdU/RmhPVzU1aEpvZERS/VT0" alt="Poutine canadense clássica">
+        <h1>Poutine Canadense em Francês 🇨🇦</h1>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="poutine-canadense">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Poutine%20Canadense!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="poutine.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 16: Arepa Venezuelana -->
-      <div class="card-ramen">
-        <img src="https://imgs.search.brave.com/dNDqZN1irb_AlWAy5N7G-qFMXfbBP3cQ2_r9-h3pZ2c/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/bGF5bGl0YS5jb20v/cmVjZWl0YXMvd3At/Y29udGVudC91cGxv/YWRzLzIwMjIvMDQv/QXJlcGFzLXZlbmV6/dWVsYW5hcy0xMDI0/eDY4My5qcGc" alt="Arepa venezuelana">
+      <div class="card-ramen openPdfModal" data-target="modal16">
+        <img src="https://imgs.search.brave.com/dNDqZN1irb_AlWAy5N7G-qFMXfbBP3cQ2_r9-h3pZ2c/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/bGF5bGl0YS5jb20v/cmVjZWl0YXMvd3At/Y29udGVudC91cGxv/YWRzLzIwMjIvMDQv/QXJlcGFzLXZlbmV6/dWVsYW5hcy0xMDI0/eDY4My5qcGc" alt="Arepa venezuelana recheada">
         <h1>Arepa Venezuelana em Espanhol 🇻🇪</h1>
-        <button class="btn openPdfModal" data-target="modal16">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="arepa-venezuelana">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Arepa%20Venezuelana!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="arepa.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 17: Borscht Ucraniano -->
-      <div class="card-ramen">
-        <img src="https://imgs.search.brave.com/Xh1irGBFmLsHepnRdpxjsIE-R1eH-eqfwHwDsILTtAc/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9yZWNl/aXRhZGVsaWNpYS5j/b20uYnIvd29yZHBy/ZXNzL3dwLWNvbnRl/bnQvZmlsZXMvcmVj/ZWl0YWRlbGljaWEu/Y29tLmJyLzIwMjQv/MDIvYm9yc2NodC11/Y3Jhbmlhbm8tdW1h/LXRyYWRpY2FvLWRh/LXVjcmFuaWEtNzY4/eDUxMi53ZWJw" alt="Borscht ucraniano">
+      <div class="card-ramen openPdfModal" data-target="modal17">
+        <img src="https://imgs.search.brave.com/_svkSOgFZR3mFsjWETXPpxQ3eQbuMCkyvnXp-KVvCQc/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/Zm90b3MtcHJlbWl1/bS9mb3RvLWJvcnNj/aHQtdWNyYW5pYW5v/LXRyYWRpY2lvbmFs/LW1lc2EtaGVybW9z/by1wbGF0by1ib3Jz/Y2h0LXJvam8tMV8x/MjI4MDE4LTM3NTQu/anBnP3NlbXQ9YWlz/X2h5YnJpZA" alt="Borscht ucraniano tradicional">
         <h1>Borscht Ucraniano em Ucraniano 🇺🇦</h1>
-        <button class="btn openPdfModal" data-target="modal17">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="borscht-ucraniano">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Borscht%20Ucraniano!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="borscht_ua.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 18: Tagine Marroquino -->
-      <div class="card-ramen">
-        <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=300&fit=crop" alt="Tagine marroquino">
+      <div class="card-ramen openPdfModal" data-target="modal18">
+        <img src="https://imgs.search.brave.com/5UVvIwpk7MBku_LrcqjpP_kDSlhOjaKBG1tQ8M3yexo/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMuaXRkZy5jb20u/YnIvaW1hZ2VzLzM2/MC0yNDAvZjMzOTYw/NzRjMDBlNzZhZTk5/NWM3NGVjNjBhMDJm/ZWUvMzIxNjk2LW9y/aWdpbmFsLmpwZw" alt="Tagine marroquino cozinhado">
         <h1>Tagine Marroquino em Árabe 🇲🇦</h1>
-        <button class="btn openPdfModal" data-target="modal18">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="tagine-marroquino">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Tagine%20Marroquino!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="tagine.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 19: Laksa Malaio -->
-      <div class="card-ramen">
-        <img src="https://imgs.search.brave.com/hAOENrBuTSnGLU4maoyYtbzAwMsQ8ZfDew2Eq8mxV9M/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9hc3Nh/bS1sYWtzYS1ub2Rk/bGUtdGFuZ3ktZmlz/aC1tb2x5LSVDMyVB/OS11bS1hbGltZW50/by1lc3BlY2lhbC1t/YWxhaW8tcG9wdWxh/ci1uby1wZW5hbmct/ZGEtbWFsJUMzJUEx/c2lhLTIxNTExNTU5/OC5qcGc" alt="Laksa malaio">
+      <div class="card-ramen openPdfModal" data-target="modal19">
+        <img src="https://imgs.search.brave.com/MdrMX9Thq-5OPggpcZeawOoqcSEcPWOSRfKQYlJDrZ4/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9hc3Nh/bS1sYWtzYS1ub2Rk/bGUtdGFuZ3ktZmlz/aC1tb2x5LSVDMyVB/OS11bS1hbGltZW50/by1lc3BlY2lhbC1t/YWxhaW8tcG9wdWxh/ci1uby1wZW5hbmct/ZGEtbWFsJUMzJUEx/c2lhLTIxNTExNTYx/NS5qcGc" alt="Laksa malaio picante">
         <h1>Laksa Malaio em Malaio 🇲🇾</h1>
-        <button class="btn openPdfModal" data-target="modal19">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="laksa-malaio">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Laksa%20Malaio!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="laksa.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 20: Ceviche Peruano -->
-      <div class="card-ramen">
-        <img src="https://imgs.search.brave.com/2hxXmGXbAb4Q4ZmjbBBrisFJ2ath-21nP4B9qOTu6Hw/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWFn/LmJvbnZpdmV1ci5j/b20vY2V2aWNoZS1w/ZXJ1YW5vLWRlLXBl/c2NhZG8uanBn" alt="Ceviche peruano">
+      <div class="card-ramen openPdfModal" data-target="modal20">
+        <img src="https://imgs.search.brave.com/2hxXmGXbAb4Q4ZmjbBBrisFJ2ath-21nP4B9qOTu6Hw/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWFn/LmJvbnZpdmV1ci5j/b20vY2V2aWNoZS1w/ZXJ1YW5vLWRlLXBl/c2NhZG8uanBn" alt="Ceviche peruano fresco">
         <h1>Ceviche Peruano em Espanhol 🇵🇪</h1>
-        <button class="btn openPdfModal" data-target="modal20">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="ceviche-peruano">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Ceviche%20Peruano!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="ceviche.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 21: Dumplings Chineses -->
-      <div class="card-ramen">
-        <img src="https://imgs.search.brave.com/VNht4hodVF2XSQ62dwsEPy6TrfkHwNEbjJz0f0LPCCk/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMucm92ZS5tZS93/XzQxNCxxXzg1L215/YWp3aHVpemxxdXh6/Z21ncGNsL2NoaW5h/LWR1bXBsaW5ncy5q/cGc" alt="Dumplings chineses">
+      <div class="card-ramen openPdfModal" data-target="modal21">
+        <img src="https://imgs.search.brave.com/_CDCxSlQMw7M_78XPaVWDlic60ODt12zNj0qC9U7dGI/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly82YWNm/ZjJlMzgwLmNsdmF3/LWNkbnduZC5jb20v/YzdhM2UyMmE2NmFh/MTkwMWJhNDIyN2Rm/MzMzYzVlZmQvMjAw/MDAxNjg4LTNhOTgy/M2E5ODQvSmlhb3pp/JTIwKER1bXBsaW5n/cyUyMENoaW5lc2Vz/KS5qcGVnP3BoPTZh/Y2ZmMmUzODA" alt="Dumplings chineses cozidos">
         <h1>Dumplings Chineses em Chinês 🇨🇳</h1>
-        <button class="btn openPdfModal" data-target="modal21">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="dumplings-chineses">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Dumplings%20Chineses!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="dumplings.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 22: Baklava Turco -->
-      <div class="card-ramen">
-        <img src="https://imgs.search.brave.com/w6VaufU5yS7jRPeAM7ExppXQzMwBIqk3aCFCzNx8hjU/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5haXJlZGVzYW50/YWZlLmNvbS5hci9w/L2NhYTkzNDg2ZTA2/ZDNkODFkYWRmNjgz/ZDQ3MWQxMDFiL2Fk/anVudG9zLzI2OC9p/bWFnZW5lcy8wMDMv/Nzg5LzAwMDM3ODkx/MjgvMTIwMHgwL3Nt/YXJ0L2Jha2xhdmEt/MWpwZy5qcGc" alt="Baklava turco">
+      <div class="card-ramen openPdfModal" data-target="modal22">
+        <img src="https://imgs.search.brave.com/1TsRzy0JONicWDBLastnXf-mRCpixPS10z-PqvKQuHI/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93aXBz/LnBsdWcuaXQvY2lw/cy9idW9uaXNzaW1v/Lm9yZy9jbXMvMjAy/NS8wMi9iYWtsYXZh/LXR1cmNvLmpwZz93/PTcxMyZhPWMmaD00/MDc" alt="Baklava turco açucarado">
         <h1>Baklava Turco em Turco 🇹🇷</h1>
-        <button class="btn openPdfModal" data-target="modal22">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="baklava-turco">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Baklava%20Turco!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="baklava.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 23: Bobotie Sul-Africano -->
-      <div class="card-ramen">
-        <img src="https://imgs.search.brave.com/bD-mzvsLuH1UdRGQZv8Fz1XLnFJHjXgxBvUIUd9bdII/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5saWNkbi5jb20v/ZG1zL2ltYWdlL0M0/RDEyQVFITXJpbl9u/WFN3NUEvYXJ0aWNs/ZS1jb3Zlcl9pbWFn/ZS1zaHJpbmtfNjAw/XzIwMDAvMC8xNTM5/ODA2OTU0OTI2P2U9/MjE0NzQ4MzY0NyZ2/PWJldGEmdD1aRHF1/QlRkM21kZXNsSDFW/Y2dZdGxLNW14b0lB/dzZmb253NHJ6RzJt/TVZB" alt="Bobotie sul-africano">
+      <div class="card-ramen openPdfModal" data-target="modal23">
+        <img src="https://imgs.search.brave.com/bD-mzvsLuH1UdRGQZv8Fz1XLnFJHjXgxBvUIUd9bdII/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5saWNkbi5jb20v/ZG1zL2ltYWdlL0M0/RDEyQVFITXJpbl9u/WFN3NUEvYXJ0aWNs/ZS1jb3Zlcl9pbWFn/ZS1zaHJpbmtfNjAw/XzIwMDAvMC8xNTM5/ODA2OTU0OTI2P2U9/MjE0NzQ4MzY0NyZ2/PWJldGEmdD1aRHF1/QlRkM21kZXNsSDFW/Y2dZdGxLNW14b0lB/dzZmb253NHJ6RzJt/TVZB" alt="Bobotie sul-africano assado">
         <h1>Bobotie Sul-Africano em Africâner 🇿🇦</h1>
-        <button class="btn openPdfModal" data-target="modal23">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="bobotie-sul-africano">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Bobotie%20Sul-Africano!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="bobotie.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 24: Empanadas Argentinas -->
-      <div class="card-ramen">
-        <img src="https://imgs.search.brave.com/9gT-JSUxJxA2eD2nasMMlfphxSdizf1UR11mwNT74g4/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/bWFsYWRlYXZlbnR1/cmFzLmNvbS93cC1j/b250ZW50L3VwbG9h/ZHMvMjAyMC8wNC9l/bXBhbmFkYXMtYXJn/ZW50aW5hcy1kaWNh/cy5qcGc" alt="Empanadas argentinas">
+      <div class="card-ramen openPdfModal" data-target="modal24">
+        <img src="https://imgs.search.brave.com/AKH-tmAV7kq3Ko6WSs5EE0hl37d0Y8XtzlOQ-3PVLtw/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzA0LzEwLzAyLzEx/LzM2MF9GXzQxMDAy/MTE1MF9nNGpEbFFW/bE1RbEFUMzM2VGZv/VmVXZTg0Y3NOSm9v/cC5qcGc" alt="Empanadas argentinas assadas">
         <h1>Empanadas Argentinas em Espanhol 🇦🇷</h1>
-        <button class="btn openPdfModal" data-target="modal24">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="empanadas-argentinas">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Empanadas%20Argentinas!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="empanadas.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 25: Pad Thai Tailandês -->
-      <div class="card-ramen">
-        <img src="https://imgs.search.brave.com/YlgFsNqzPf75Vgn9mSzltEwqyB7w3FPnri8YvvdZ2z4/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/YXNpYXRpY2EtdHJh/dmVsLmNvbS5ici9j/a2ZpbmRlci91c2Vy/ZmlsZXMvaW1hZ2Vz/L3BhZC10aGFpLTAx/LmpwZw" alt="Pad Thai tailandês">
+      <div class="card-ramen openPdfModal" data-target="modal25">
+        <img src="https://imgs.search.brave.com/UluocRvO-iu4HBMn3eDnp0EjWbd6LCdWPOQ2mV1Y_Sg/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/bWVsaG9yZXNkZXN0/aW5vcy5jb20uYnIv/d3AtY29udGVudC91/cGxvYWRzLzIwMTgv/MTEvcGFkLXRoYWkt/dGFpbGFuZGlhLmpw/Zw" alt="Pad Thai tailandês servido">
         <h1>Pad Thai Tailandês em Tailandês 🇹🇭</h1>
-        <button class="btn openPdfModal" data-target="modal25">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="pad-thai-tailandes">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Pad%20Thai%20Tailandês!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="padthai.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 26: Schnitzel Alemão -->
-      <div class="card-ramen">
-        <img src="https://imgs.search.brave.com/iIMenZWG47L_OJ72XerVa55VFSloAerxzjOxTbO5Gnw/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9nZXJt/YW4td2llbmVyLXNj/aG5pdHplbC1jb20t/c2FsYWRhLWRlLWJh/dGF0YS1uYS12ZWxo/YS1tZXNhLW1hZGVp/cmEtdG9hbGhhLXBy/ZXRhLWUtdGFuYS1l/bS11bWEtaXRlbnMt/bGF0ZXJhaXMtMzM3/ODY3NjczLmpwZw" alt="Schnitzel alemão">
+      <div class="card-ramen openPdfModal" data-target="modal26">
+        <img src="https://imgs.search.brave.com/Co0jeU8m0X_Wqi4phFjMf-B9K46uj6W6lZwcs1uSY5E/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTM5/NDc5MzE2Mi9wdC9m/b3RvL2dlcm1hbi1w/b3JrLXNjaG5pdHpl/bC13aXRoLWhhbmQt/bWFkZS1zcGFldHps/ZS5qcGc_cz02MTJ4/NjEyJnc9MCZrPTIw/JmM9RlJjbk1IUzBC/Y0cwa3d5WDlrMklm/NzFhcmNzNnNFZktk/Mld0N2lVMXlRST0" alt="Schnitzel alemão crocante">
         <h1>Schnitzel Alemão em Alemão 🇩🇪</h1>
-        <button class="btn openPdfModal" data-target="modal26">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="schnitzel-alemao">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Schnitzel%20Alemão!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="schnitzel.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 27: Fufu Nigeriano -->
-      <div class="card-ramen">
-        <img src="https://imgs.search.brave.com/EMugFa9x7RlZJ2YsztynL_P-EJyVcEaxyWjyKC4gu2A/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/ZXVyb3NvZmFtYWRy/aWQuZXMvd3AtY29u/dGVudC91cGxvYWRz/LzIwMjMvMTIvMTcw/MjczMjQyNF81NDhf/Q29tby1oYWNlci1m/dWZ1LWRlc2RlLWNl/cm8tZnVmdS1uaWdl/cmlhbm8uanBn" alt="Fufu nigeriano">
-        <h1>Fufu Nigeriano em Iorubá 🇳🇬</h1>
-        <button class="btn openPdfModal" data-target="modal27">📄 Ver receita completa</button>
+      <div class="card-ramen openPdfModal" data-target="modal27">
+        <img src="https://imgs.search.brave.com/EMugFa9x7RlZJ2YsztynL_P-EJyVcEaxyWjyKC4gu2A/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/ZXVyb3NvZmFtYWRy/aWQuZXMvd3AtY29u/dGVudC91cGxvYWRz/LzIwMjMvMTIvMTcw/MjczMjQyNF81NDhf/Q29tby1oYWNlci1m/dWZ1LWRlc2RlLWNl/cm8tZnVmdS1uaWdl/cmlhbm8uanBn" alt="Fufu nigeriano tradicional">
+        <h1>Fufu Nigeriano em Yoruba 🇳🇬</h1>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="fufu-nigeriano">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Fufu%20Nigeriano!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="fufu.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 28: Rösti Suíço -->
-      <div class="card-ramen">
-        <img src="https://imgs.search.brave.com/aE2St0pElO5ECSOYBkmaZrbN6lBb5McDT9CFsW70wGc/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/ZXN0YWRhby5jb20u/YnIvcmVzaXplci92/Mi9LSTMyV1NDREVO/RFA3T1E2UUVKUTVT/VEJBNC5qcGVnP3F1/YWxpdHk9ODAmYXV0/aD0yMTQ4N2M2ODA4/MWY3MDEyMGVkZWRl/MmMzODllOTc2MjBh/ODJkMWY1NzNjYTE0/ZjlkMDJhMjQwMjQ3/Y2JkZWZlJndpZHRo/PTcyMCZoZWlnaHQ9/NDEwJnNtYXJ0PXRy/dWU" alt="Rösti suíço">
+      <div class="card-ramen openPdfModal" data-target="modal28">
+        <img src="https://imgs.search.brave.com/bXwPEq9DT7OfYtBEHPHsYhnWfI2H4Yln92vqCy3N8Sc/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdDQu/ZGVwb3NpdHBob3Rv/cy5jb20vNzY5MTc1/OC8xOTgxMy9pLzYw/MC9kZXBvc2l0cGhv/dG9zXzE5ODEzNjA0/MC1zdG9jay1waG90/by1kZWxpY2lvdXMt/c3dpc3Mtcm9zdGkt/cG90YXRvLXBhbmNh/a2UuanBn" alt="Rösti suíço crocante">
         <h1>Rösti Suíço em Alemão 🇨🇭</h1>
-        <button class="btn openPdfModal" data-target="modal28">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="rosti-suico">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Rösti%20Suíço!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="roesti.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 29: Pastel de Belém Português -->
-      <div class="card-ramen">
-        <img src="https://imgs.search.brave.com/oLBQ_MQVdMXVDqOJb7iqtwebeq6qOKHkEK_5LUDrSHI/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMjE2/OTQ4MjY0OS9wdC9m/b3RvL3Bhc3RlbC1k/ZS1uYXRhLXBhc3Rl/aXMtZGUtbmF0YS1j/dXN0YXJkLXRhcnQt/cG9ydHVndWVzZS1z/cGVjaWFsaXR5Lmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz11/VGwtT2V0YUE2SDV6/NF95TjRsUVVFNmY3/b09FNWNNQjRqWlh4/N0drMWpzPQ" alt="Pastel de Belém">
+      <div class="card-ramen openPdfModal" data-target="modal29">
+        <img src="https://imgs.search.brave.com/LmhmEKmWEVK_LFZgBQWXIAFf1sggSVA3YL7uA2rEDbQ/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9ibG9n/LnRvdXJ0YWlsb3Jz/LmNvbS9ocy1mcy9o/dWJmcy9CbG9nL0hv/dyUyMHRvJTIwbWFr/ZSUyMHRoZSUyMChh/bG1vc3QpJTIwcGVy/ZmVjdCUyMFBhc3Rl/bCUyMGRlJTIwQmVs/JUMzJUE5bS8zOTA0/ODY2MTU0MF85OWUx/MjJkYjMyX2IuanBn/P3dpZHRoPTY5MCZu/YW1lPTM5MDQ4NjYx/NTQwXzk5ZTEyMmRi/MzJfYi5qcGc" alt="Pastel de Belém tradicional">
         <h1>Pastel de Belém em Português 🇵🇹</h1>
-        <button class="btn openPdfModal" data-target="modal29">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="pastel-de-belem">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Pastel%20de%20Belém!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="pasteis.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
 
       <!-- Card 30: Borscht Russo -->
-      <div class="card-ramen">
-        <img src="https://imgs.search.brave.com/TOQRrSAHGXmrFKp4YOV98UNOGFFMBQSuNYx91dmVMvY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvNTYz/OTc3MDQ3L3B0L2Zv/dG8vYm9yc2NodC1p/cy1waG90b2dyYXBo/ZWQtaW4tdGhlLWxv/cy1hbmdlbGVzLXRp/bWVzLXZpYS1nZXR0/eS1pbWFnZXMtc3R1/ZGlvLW9uLWphbnVh/cnktMzEtMjAxMy5q/cGc/cz02MTJ4NjEyJnc9MCZrPTIwJmM9/Z0g3SWdoUWtEaV9w/cXVERWpRc3Vqck1N/VDcyRmlJRXkxOHl5/VDJjNm5tUT0" alt="Borscht russo">
+      <div class="card-ramen openPdfModal" data-target="modal30">
+        <img src="https://imgs.search.brave.com/nRCC7pUfzuF3lSXA56_oOwWWaWaulOUV0iJ8-9W2Ao8/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly91cy4x/MjNyZi5jb20vNDUw/d20vZ2F2cmlseWNo/ZXYvZ2F2cmlseWNo/ZXYyMjEwL2dhdnJp/bHljaGV2MjIxMDAw/MTU0LzE5MjMwMTQz/Mi11a3JhaW5pYW4t/Ym9yc2NodC1yZWQt/c291cC13aXRoLXNv/dXItY3JlYW0tYW5k/LWRpbGwtb24tYS1n/cmF5LXN0b25lLXRh/YmxlLXNlcnZlZC13/aXRoLWNyb3V0b25z/LmpwZz92ZXI9Ng" alt="Borscht russo tradicional">
         <h1>Borscht Russo em Russo 🇷🇺</h1>
-        <button class="btn openPdfModal" data-target="modal30">📄 Ver receita completa</button>
+        <div class="modal-actions">
+          <button class="btn like-btn" data-recipe="borscht-russo">❤️ <span class="like-count">0</span></button>
+          <a href="https://api.whatsapp.com/send?text=Olha%20essa%20receita%20incrível%20de%20Borscht%20Russo!%20Descubra%20sabores%20do%20mundo:%20[link_do_seu_site]" class="btn" style="background: #25D366;" target="_blank" rel="noopener">📱 Compartilhar no WhatsApp</a>
+          <button class="btn download" data-pdf="borscht_ru.pdf">⬇️ Baixar PDF</button>
+        </div>
       </div>
-    </section>
+    </div>
   </main>
 
-  <!-- Modais aqui (mantidos iguais, não vou repetir por brevidade) -->
-   <div id="modal1" class="modal">
+  <!-- Modal 1: Paella Espanhola -->
+  <div id="modal1" class="modal">
     <div class="modal-content">
       <span class="close" data-target="modal1">&times;</span>
       <h2>Receita: Paella Espanhola</h2>
@@ -272,14 +410,14 @@
         <h3>Modo de Preparo (Preparación):</h3>
         <ol>
           <li>Sofreír el pollo y mariscos. — Refogue o frango e os frutos do mar.</li>
-          <li>Añadir arroz y azafrán. — Adicione o arroz e o açafrão.</li>
-          <li>Cocinar hasta que el arroz esté listo. — Cozinhe até o arroz estar pronto.</li>
-          <li>Dejar reposar 5 minutos antes de servir. — Deixe descansar 5 minutos antes de servir.</li>
+          <li>Agregar el arroz y azafrán. — Adicione o arroz e o açafrão.</li>
+          <li>Incorporar caldo y cocinar. — Acrescente o caldo e cozinhe.</li>
+          <li>Finalizar con pimientos. — Finalize com pimentões.</li>
         </ol>
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/nq_mTBjG6MM?si=19w6GmZ_Ilb-C7-Q" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/nq_mTBjG6MM?si=19w6GmZ_Ilb-C7-Q" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="paella.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -324,19 +462,19 @@
       <div class="recipe-text">
         <h3>Ingredientes:</h3>
         <ul>
-          <li>Feijão preto — Black beans</li>
-          <li>Costela de porco — Pork ribs</li>
-          <li>Linguiça — Sausage</li>
-          <li>Orelha de porco — Pig's ear</li>
-          <li>Bacon — Bacon</li>
-          <li>Cebola — Onion</li>
+          <li>Feijão preto — Feijão preto</li>
+          <li>Carne de porco — Carne de porco</li>
+          <li>Linguiça — Linguiça</li>
+          <li>Couve — Couve</li>
+          <li>Arroz — Arroz</li>
+          <li>Laranja — Laranja</li>
         </ul>
         <h3>Modo de Preparo:</h3>
         <ol>
-          <li>Deixe as carnes de molho por 24h. — Soak the meats for 24 hours.</li>
-          <li>Cozinhe o feijão com as carnes. — Cook the beans with the meats.</li>
-          <li>Refogue a cebola e temperos. — Sauté onion and seasonings.</li>
-          <li>Sirva com arroz, couve e laranja. — Serve with rice, collard greens, and orange.</li>
+          <li>Cozinhar o feijão com as carnes. — Cozinhe o feijão junto com as carnes.</li>
+          <li>Refogar a couve. — Refogue a couve.</li>
+          <li>Servir com arroz e laranja. — Sirva com arroz e fatias de laranja.</li>
+          <li>Acompanhar com farofa. — Acompanhe com farofa.</li>
         </ol>
       </div>
       <div class="recipe-video">
@@ -371,7 +509,7 @@
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/B7y-OhpE7zQ?si=CeQZvspgghDlu_j8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/FDab1FfkBNY?si=KqVAVY9rDhB9u_GQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="sushi.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -383,26 +521,26 @@
       <span class="close" data-target="modal5">&times;</span>
       <h2>Receita: Curry Indiano</h2>
       <div class="recipe-text">
-        <h3>सामग्री (Sāmagrī - Ingredientes):</h3>
+        <h3>सामग्री (Ingredients):</h3>
         <ul>
-          <li>मसाले — Masalas (especiarias)</li>
-          <li>नारियल का दूध — Leite de coco</li>
-          <li>चिकन — Frango</li>
-          <li>प्याज — Cebola</li>
-          <li>अदरक — Gengibre</li>
+          <li>आलू — Batata</li>
+          <li>गाजर — Cenoura</li>
+          <li>मटर — Ervilha</li>
+          <li>प्याज़ — Cebola</li>
           <li>लहसुन — Alho</li>
+          <li>टमाटर — Tomate</li>
         </ul>
-        <h3>विधि (Vidhi - Modo de Preparo):</h3>
+        <h3>विधि (Method):</h3>
         <ol>
-          <li>प्याज और मसाले भूनें। — Frite a cebola e as especiarias.</li>
-          <li>चिकन डालें और पकाएं। — Adicione o frango e cozinhe.</li>
-          <li>नारियल का दूध मिलाएं। — Misture o leite de coco.</li>
-          <li>धीमी आंच पर पकाएं। — Cozinhe em fogo baixo.</li>
+          <li>प्याज़ और लहसुन को तलें।— Refogue a cebola e o alho.</li>
+          <li>टमाटर और मसाले डालें।— Adicione o tomate e os temperos.</li>
+          <li>सब्जियाँ डालकर पकाएँ।— Acrescente os vegetais e cozinhe.</li>
+          <li>हरी धनिया से गार्निश करें।— Decore com coentro fresco.</li>
         </ol>
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/WLUvth2F76A?si=blGTzZSkJhfmmHRB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/mIwMwEiY188?si=ZhmmSsC-eyJJLVwa" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="curry.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -433,7 +571,7 @@
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-         <iframe width="560" height="315" src="https://www.youtube.com/embed/rhQhMfwSVWg?si=f8yaNjUexg-ZEALj" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/rhQhMfwSVWg?si=f8yaNjUexg-ZEALj" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="tacos.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -456,15 +594,15 @@
         </ul>
         <h3>Εκτέλεση (Ektélesi - Modo de Preparo):</h3>
         <ol>
-          <li>Τηγανίζουμε τις μελιτζάνες. — Frite as berinjelas.</li>
-          <li>Σοτάρουμε τον κιμά με τις ντομάτες. — Refogue a carne com os tomates.</li>
-          <li>Φτιάχνουμε μπεσαμέλ. — Faça o molho bechamel.</li>
-          <li>Ψήνουμε στο φούρνο. — Asse no forno.</li>
+          <li>Ψήστε τις μελιτζάνες. — Asse as berinjelas.</li>
+          <li>Σοτάρετε τον κιμά με ντομάτα. — Refogue a carne com tomate.</li>
+          <li>Φτιάξτε μπέσαμελ. — Prepare o molho branco (béchamel).</li>
+          <li>Τοποθετήστε στο φούρνο. — Monte e leve ao forno.</li>
         </ol>
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-     <iframe width="560" height="315" src="https://www.youtube.com/embed/SsNG2NwTWEY?si=OaZW7AltjIMfCYkI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/ZWv22Z1kQ7Y?si=3lJx3X3D9D2pY8qX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="moussaka.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -509,24 +647,24 @@
       <div class="recipe-text">
         <h3>Ingrédients:</h3>
         <ul>
-          <li>Aubergines — Berinjelas</li>
-          <li>Courgettes — Abobrinhas</li>
-          <li>Poivrons — Pimentões</li>
-          <li>Tomates — Tomates</li>
+          <li>Aubergine — Berinjela</li>
+          <li>Courgette — Abobrinha</li>
+          <li>Poivron — Pimentão</li>
           <li>Oignon — Cebola</li>
+          <li>Tomate — Tomate</li>
           <li>Huile d'olive — Azeite</li>
         </ul>
         <h3>Préparation:</h3>
         <ol>
-          <li>Couper tous les légumes en dés. — Corte todos os legumes em cubos.</li>
-          <li>Faire revenir l'oignon. — Refogue a cebola.</li>
-          <li>Ajouter les légumes et mijoter. — Adicione os legumes e cozinhe lentamente.</li>
-          <li>Assaisonner et servir. — Tempere e sirva.</li>
+          <li>Couper les légumes en rondelles. — Corte os vegetais em rodelas.</li>
+          <li>Les faire revenir séparément. — Refogue-os separadamente.</li>
+          <li>Assembler dans un plat. — Monte em um refratário.</li>
+          <li>Cuire au four. — Asse no forno.</li>
         </ol>
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-         <iframe width="560" height="315" src="https://www.youtube.com/embed/AwsE3e7-JlQ?si=DKDfIhzygxTd74q0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/AwsE3e7-JlQ?si=DKDfIhzygxTd74q0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="ratatouille.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -557,7 +695,7 @@
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/7Vz33Fj1wEA?si=96-hqUBLD1IgcPt6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/7Vz33Fj1wEA?si=96-hqUBLD1IgcPt6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="pierogi.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -580,15 +718,15 @@
         </ul>
         <h3>ترتیب (Tarteeb - Modo de Preparo):</h3>
         <ol>
-          <li>مرغ کو دہی اور مصالحے میں میرینیٹ کریں۔ — Marine o frango no iogurte e especiarias.</li>
-          <li>چاول کو نمک اور مصالحے کے ساتھ ابالیں۔ — Cozinhe o arroz com sal e especiarias.</li>
-          <li>پیاز اور مرغ کو بھونیں۔ — Refogue a cebola e o frango.</li>
-          <li>پیالوں میں پرتیں بنائیں اور دم پر پکائیں۔ — Monte camadas e cozinhe em fogo baixo.</li>
+          <li>مرغ کو یوگرت اور مسالوں کے ساتھ مارنے دیں۔ — Marinar o frango com iogurte e especiarias.</li>
+          <li>مرغ کو سوٹ کریں۔ — Refogue o frango.</li>
+          <li>چاول کو الگ سے پکائیں۔ — Cozinhe o arroz separadamente.</li>
+          <li>مرغ اور چاول کو قطعات میں رکھیں اور بھونیں۔ — Monte em camadas e leve ao forno.</li>
         </ol>
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-         <iframe width="560" height="315" src="https://www.youtube.com/embed/nZ4MxEwT-iM?si=DsB10jWV6uUb6zk3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/nZ4MxEwT-iM?si=DsB10jWV6uUb6zk3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="biryani.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -603,23 +741,23 @@
         <h3>Hozzávalók (Ingredientes):</h3>
         <ul>
           <li>Marhahús — Carne bovina</li>
-          <li>Paprika — Pimentão em pó</li>
+          <li>Paprika — Páprica</li>
           <li>Hagyma — Cebola</li>
           <li>Burgonya — Batata</li>
-          <li>Sárgarépa — Cenoura</li>
           <li>Paradicsom — Tomate</li>
+          <li>Marhahúsleves — Caldo de carne</li>
         </ul>
         <h3>Elkészítés (Modo de Preparo):</h3>
         <ol>
-          <li>Pirítsuk meg a húst. — Doure a carne.</li>
-          <li>Süssük meg a hagymát és a paprikát. — Refogue a cebola e a páprica.</li>
-          <li>Add hozzá a zöldségeket és főzd lassan. — Adicione os legumes e cozinhe lentamente.</li>
-          <li>Fűszerezzük ízlés szerint. — Tempere a gosto.</li>
+          <li>Hagymát megdinsztelni. — Refogue a cebola.</li>
+          <li>Hús hozzáadása és sütés. — Adicione a carne e doure.</li>
+          <li>Paprika, paradicsom, burgonya. — Acrescente páprica, tomate e batata.</li>
+          <li>Lassú tűzön főzni. — Cozinhe em fogo lento.</li>
         </ol>
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/FDab1FfkBNY?si=KqVAVY9rDhB9u_GQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/vccqw5ycU80?si=ZrAVL9gBefzPhLqZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="goulash.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -650,7 +788,7 @@
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-         <iframe width="560" height="315" src="https://www.youtube.com/embed/EpRBxau3ou0?si=M3ClJihrUMP2r12v" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/EpRBxau3ou0?si=M3ClJihrUMP2r12v" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="pho.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -673,10 +811,10 @@
         </ul>
         <h3>طريقة التحضير (Tariqat al-tahdir - Modo de Preparo):</h3>
         <ol>
-          <li>انقع الحمص طوال الليل. — Deixe o grão-de-bico de molho durante a noite.</li>
-          <li>اطحن المكونات معًا. — Bata todos os ingredientes no processador.</li>
-          <li>شكّل كرات صغيرة. — Modele em bolinhos pequenos.</li>
-          <li>اقليها حتى تصبح ذهبية. — Frite até dourar.</li>
+          <li>نقع الحمص طوال الليل. — Deixe o grão-de-bico de molho por toda a noite.</li>
+          <li>خلط مع البهارات والخضروات. — Misture com especiarias e ervas.</li>
+          <li>تشكيل كرات صغيرة. — Mode bolinhos pequenos.</li>
+          <li>قلي حتى يصبح ذهبي اللون. — Frite até dourar.</li>
         </ol>
       </div>
       <div class="recipe-video">
@@ -693,20 +831,20 @@
       <span class="close" data-target="modal15">&times;</span>
       <h2>Receita: Poutine Canadense</h2>
       <div class="recipe-text">
-        <h3>Ingredients:</h3>
+        <h3>Ingrédients:</h3>
         <ul>
-          <li>Fries — Batatas fritas</li>
-          <li>Cheese curds — Queijo coalho</li>
-          <li>Gravy — Molho de carne</li>
-          <li>Salt — Sal</li>
-          <li>Pepper — Pimenta</li>
+          <li>Frites — Batatas fritas</li>
+          <li>Fromage en grains — Queijo em grãos</li>
+          <li>Sauce brune — Molho marrom</li>
+          <li>Sel — Sal</li>
+          <li>Poivre — Pimenta</li>
         </ul>
-        <h3>Preparation:</h3>
+        <h3>Préparation:</h3>
         <ol>
-          <li>Fry the potatoes until crispy. — Frite as batatas até ficarem crocantes.</li>
-          <li>Warm the cheese curds. — Aqueça o queijo coalho.</li>
-          <li>Heat the gravy. — Aqueça o molho.</li>
-          <li>Layer fries, cheese, and gravy. — Monte camadas: batatas, queijo e molho.</li>
+          <li>Faire cuire les frites. — Cozinhe as batatas fritas.</li>
+          <li>Les disposer dans un plat. — Coloque-as em um prato.</li>
+          <li>Ajouter le fromage. — Adicione o queijo em grãos.</li>
+          <li>Napper de sauce brune chaude. — Cubra com o molho marrom quente.</li>
         </ol>
       </div>
       <div class="recipe-video">
@@ -725,7 +863,7 @@
       <div class="recipe-text">
         <h3>Ingredientes:</h3>
         <ul>
-          <li>Harina de maíz — Farinha de milho pré-cozida</li>
+          <li>Harina de maíz precocida — Farinha de milho pré-cozida</li>
           <li>Agua — Água</li>
           <li>Sal — Sal</li>
           <li>Queso — Queijo</li>
@@ -733,15 +871,15 @@
         </ul>
         <h3>Preparación:</h3>
         <ol>
-          <li>Mezclar harina, agua y sal. — Misture a farinha, água e sal.</li>
-          <li>Formar discos. — Modele em discos.</li>
-          <li>Cocinar en budare o sartén. — Cozinhe em frigideira ou chapa.</li>
-          <li>Rellenar con queso y mantequilla. — Recheie com queijo e manteiga.</li>
+          <li>Mezclar la harina con agua y sal. — Misture a farinha com água e sal.</li>
+          <li>Amasar hasta formar una masa. — Sove até formar uma massa homogênea.</li>
+          <li>Dar forma de disco plano. — Mode discos planos.</li>
+          <li>Cocinar en una plancha hasta dorar. — Cozinhe em uma frigideira até dourar.</li>
         </ol>
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-       <iframe width="560" height="315" src="https://www.youtube.com/embed/mIwMwEiY188?si=ZhmmSsC-eyJJLVwa" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/jDSh7fBigPU?si=bnwvxwMShH1fisQ_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="arepa.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -753,7 +891,7 @@
       <span class="close" data-target="modal17">&times;</span>
       <h2>Receita: Borscht Ucraniano</h2>
       <div class="recipe-text">
-        <h3>Інгредієнти (Inhrediyenty - Ingredientes):</h3>
+        <h3>Інгредієнти (Ingredients):</h3>
         <ul>
           <li>Буряк — Beterraba</li>
           <li>Капуста — Repolho</li>
@@ -762,17 +900,17 @@
           <li>Цибуля — Cebola</li>
           <li>Сметана — Creme azedo</li>
         </ul>
-        <h3>Приготування (Pryhotuvannya - Modo de Preparo):</h3>
+        <h3>Приготування (Preparação):</h3>
         <ol>
-          <li>Обсмажити цибулю та моркву. — Refogue a cebola e a cenoura.</li>
-          <li>Додати буряк і тушкувати. — Adicione a beterraba e refogue.</li>
-          <li>Вкинути картоплю та капусту у бульйон. — Adicione batata e repolho ao caldo.</li>
+          <li>Пассерувати цибулю та моркву. — Refogue a cebola e a cenoura.</li>
+          <li>Додати буряк та тушкувати. — Adicione a beterraba e refogue.</li>
+          <li>Варити картоплю та капусту в бульйоні. — Cozinhe a batata e o repolho no caldo.</li>
           <li>Подавати зі сметаною. — Sirva com creme azedo.</li>
         </ol>
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/2xL3i1zn9PY?si=m0lUb-TPhjfz8aCs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/2xL3i1zn9PY?si=m0lUb-TPhjfz8aCs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="borscht_ua.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -796,14 +934,14 @@
         <h3>طريقة التحضير (Tariqat al-tahdir - Modo de Preparo):</h3>
         <ol>
           <li>يُحمر اللحم مع البصل. — Doure a carne com a cebola.</li>
-          <li>يُضاف الخضار والتوابل. — Adicione os legumes e especiarias.</li>
-          <li>يُطهى على نار هادئة في الطاجن. — Cozinhe em fogo baixo no tagine.</li>
-          <li>يُقدم مع الخبز. — Sirva com pão.</li>
+          <li>تُضاف الخضروات والتوابل. — Adicione os vegetais e especiarias.</li>
+          <li>يطبخ ببطء في طاجين. — Cozinhe lentamente no tajine (ou panela).</li>
+          <li>يزين بالزبيب. — Decore com uvas-passas.</li>
         </ol>
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/aPmiUx7Odag?si=9wD7ux3RJhfsu74M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/SiIddkQ7ZkI?si=lKZNX9-a9EDj_uGn" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="tagine.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -834,7 +972,7 @@
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/u_ZFPSn0sJE?si=4kqgCMD6eGApjWGh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/u_ZFPSn0sJE?si=2F0rD5f8Q0Q2Q0Q0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="laksa.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -848,24 +986,24 @@
       <div class="recipe-text">
         <h3>Ingredientes:</h3>
         <ul>
-          <li>Pescado — Peixe branco</li>
-          <li>Lima — Limão</li>
-          <li>Cebolla — Cebola roxa</li>
-          <li>Aji limo — Pimenta</li>
-          <li>Maíz — Milho</li>
-          <li>Camote — Batata-doce</li>
+          <li>Pescado blanco — Peixe branco</li>
+          <li>Limón — Limão</li>
+          <li>Cebolla roja — Cebola roxa</li>
+          <li>Aji limo — Pimenta limo</li>
+          <li>Culantro — Coentro peruano</li>
+          <li>Sal — Sal</li>
         </ul>
         <h3>Preparación:</h3>
         <ol>
           <li>Cortar el pescado en cubos. — Corte o peixe em cubos.</li>
-          <li>Marinar en jugo de lima. — Marine no suco de limão.</li>
-          <li>Agregar cebolla y ají. — Adicione cebola e pimenta.</li>
-          <li>Servir con camote y maíz. — Sirva com batata-doce e milho.</li>
+          <li>Marinar en jugo de limón. — Marine em suco de limão.</li>
+          <li>Mezclar con cebolla y aji. — Misture com cebola e pimenta.</li>
+          <li>Servir con camote y maíz. — Sirva com batata e milho.</li>
         </ol>
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-     <iframe width="560" height="315" src="https://www.youtube.com/embed/v7A-IMlTPEo?si=jcSFWl5XPvukgdLd" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/v2yof9OeDEA?si=dZDU0_9cLpJR9kNP" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="ceviche.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -896,7 +1034,7 @@
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/CKsAcYN5AkM?si=BBI2_jlGDZqQ1-4-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/CKsAcYN5AkM?si=BBI2_jlGDZqQ1-4-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="dumplings.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -911,23 +1049,23 @@
         <h3>Malzemeler (Ingredientes):</h3>
         <ul>
           <li>Yufka — Massa filo</li>
-          <li>Fıstık — Pistache</li>
-          <li>Tereyağı — Manteiga</li>
+          <li>Ceviz — Nozes</li>
           <li>Şeker — Açúcar</li>
-          <li>Su — Água</li>
-          <li>Limon suyu — Suco de limão</li>
+          <li>Bal — Mel</li>
+          <li>Tereyağı — Manteiga</li>
+          <li>Yer fıstığı — Pistache (opcional)</li>
         </ul>
         <h3>Yapılışı (Modo de Preparo):</h3>
         <ol>
-          <li>Yufkaları tereyağında ıslat. — Umedeça as folhas de massa com manteiga.</li>
-          <li>Üzerine fıstık serp. — Polvilhe pistache por cima.</li>
-          <li>Katmanlar halinde fırınla. — Asse em camadas.</li>
-          <li>Şerbeti dök ve dinlendir. — Despeje a calda e deixe repousar.</li>
+          <li>Yufkaları yağla sırlayın. — Pincele as camadas de massa com manteiga.</li>
+          <li>Ceviz ve şekerle doldurun. — Recheie com nozes e açúcar.</li>
+          <li>Kare veya elmas şeklinde kesin. — Corte em formas de quadrados ou losangos.</li>
+          <li>Fırında pişirin ve bal gezdirin. — Asse e regue com mel quente.</li>
         </ol>
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-       <iframe width="560" height="315" src="https://www.youtube.com/embed/SiIddkQ7ZkI?si=lKZNX9-a9EDj_uGn" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/B7y-OhpE7zQ?si=CeQZvspgghDlu_j8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="baklava.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -952,13 +1090,13 @@
         <ol>
           <li>Bak die vleis en uie aan. — Refogue a carne e as cebolas.</li>
           <li>Meng brood en melk by. — Misture pão e leite.</li>
-          <li>Voeg kruie en kurrante by. — Adicione especiarias e uvas passas.</li>
-          <li>Bak met eiermengsel bo-op. — Asse com mistura de ovos por cima.</li>
+          <li>Voeg kurrante en kruie by. — Adicione uvas-passas e especiarias.</li>
+          <li>Oondop en met eiers besprenkel. — Leve ao forno e cubra com uma mistura de ovos.</li>
         </ol>
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/BiI171ycgog?si=8Lt09ZVkLuiK2P3y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/v7A-IMlTPEo?si=jcSFWl5XPvukgdLd" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="bobotie.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -989,7 +1127,7 @@
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/jDSh7fBigPU?si=bnwvxwMShH1fisQ_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/jDSh7fBigPU?si=bnwvxwMShH1fisQ_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="empanadas.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -1001,26 +1139,26 @@
       <span class="close" data-target="modal25">&times;</span>
       <h2>Receita: Pad Thai Tailandês</h2>
       <div class="recipe-text">
-        <h3>ส่วนผสม (Sùan-sǐm - Ingredientes):</h3>
+        <h3>ส่วนผสม (Ingredientes):</h3>
         <ul>
-          <li>เส้นเล็ก — Macarrão de arroz</li>
+          <li>เส้นก๋วยเตี๋ยว — Macarrão (Pad Thai)</li>
+          <li>เต้าหู้ — Tofu</li>
           <li>กุ้ง — Camarão</li>
           <li>ไข่ — Ovo</li>
-          <li>ถั่วลิสง — Amendoim</li>
-          <li>น้ำปลา — Molho de peixe</li>
-          <li>น้ำตาลปี๊บ — Açúcar de palma</li>
+          <li>ถั่วงอก — Broto de feijão</li>
+          <li>ถั่วป่น — Amendoim triturado</li>
         </ul>
-        <h3>วิธีทำ (Wí-thǐ tham - Modo de Preparo):</h3>
+        <h3>วิธีทำ (Modo de Preparo):</h3>
         <ol>
-          <li>แช่เส้นให้นิ่ม. — Hidrate o macarrão.</li>
-          <li>ผัดกุ้งกับไข่. — Refogue o camarão com o ovo.</li>
-          <li>ใส่เส้นและปรุงรสด้วยน้ำปลาและน้ำตาล. — Adicione o macarrão e tempere.</li>
-          <li>โรยถั่วลิสงและเสิร์ฟ. — Polvilhe amendoim e sirva.</li>
+          <li>แช่เส้นก๋วยเตี๋ยวให้สุก。— Deixe o macarrão de molho até amaciar.</li>
+          <li>ผัดกุ้ง ไข่ และเต้าหู้。— Refogue camarão, ovo e tofu.</li>
+          <li>ใส่เส้นและซอสลงไปผัด。— Adicione o macarrão e o molho, refogando.</li>
+          <li>โรยถั่วงอกและถั่วป่น。— Decore com brotos e amendoim.</li>
         </ol>
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-       <iframe width="560" height="315" src="https://www.youtube.com/embed/f1L0P-gAZ0k?si=M8-79dgtwHYGGRzk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/WLUvth2F76A?si=blGTzZSkJhfmmHRB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="padthai.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -1034,24 +1172,24 @@
       <div class="recipe-text">
         <h3>Zutaten (Ingredientes):</h3>
         <ul>
-          <li>Schweinefleisch — Carne de porco</li>
+          <li>Schnitzel (Kalbfleisch) — Bife (de vitela)</li>
           <li>Mehl — Farinha</li>
-          <li>Ei — Ovo</li>
+          <li>Eier — Ovos</li>
           <li>Paniermehl — Farinha de rosca</li>
           <li>Öl — Óleo</li>
           <li>Zitrone — Limão</li>
         </ul>
         <h3>Zubereitung (Modo de Preparo):</h3>
         <ol>
-          <li>Fleisch dünn klopfen. — Bata a carne até ficar fina.</li>
-          <li>Wenden in Mehl, Ei und Paniermehl. — Passe na farinha, ovo e farinha de rosca.</li>
-          <li>In Öl goldbraun braten. — Frite em óleo até dourar.</li>
+          <li>Das Fleisch klopfen und salzen. — Bata e salgue a carne.</li>
+          <li>In Mehl, Ei und Paniermehl wälzen. — Passe pela farinha, ovo e farinha de rosca.</li>
+          <li>In Öl goldgelb backen. — Frite até ficar dourado.</li>
           <li>Mit Zitrone servieren. — Sirva com limão.</li>
         </ol>
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/dWfOJ4eISEI?si=cg8sVKZHp4kam5pN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/n4yE3CjIjQ0?si=example" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="schnitzel.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -1073,13 +1211,13 @@
         <ol>
           <li>Ṣàkóso iyán ní omí. — Cozinhe a mandioca em água.</li>
           <li>Yi pada, ya patapata. — Escorra e amasse vigorosamente.</li>
-          <li>Fi epọ han (àgbàyé). — Adicione um pouco de óleo (opcional).</li>
-          <li>Ṣe àpẹrẹ àwọn ọ̀páṣe àti tẹ̀. — Modele em bolas e sirva.</li>
+          <li>Sì mú epọ tí o ba ṣe pata. — Adicione óleo se desejar.</li>
+          <li>Sì mú ní àwòràn tí ó tọ. — Mode bolas do tamanho desejado.</li>
         </ol>
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-     <iframe width="560" height="315" src="https://www.youtube.com/embed/mZ2W4DOCiGk?si=ObXPaOWQOHAOWfXA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/example?si=example" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="fufu.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -1102,14 +1240,14 @@
         <h3>Zubereitung (Modo de Preparo):</h3>
         <ol>
           <li>Kartoffeln reiben. — Rale as batatas.</li>
-          <li>Mit Salz, Pfeffer und Muskat würzen. — Tempere com sal, pimenta e noz-moscada.</li>
-          <li>In Butter goldbraun braten. — Frite na manteiga até dourar.</li>
-          <li>Wenden und von beiden Seiten braten. — Vire e frite dos dois lados.</li>
+          <li>Mit Salz, Pfeffer würzen. — Tempere com sal e pimenta.</li>
+          <li>In Butter braten. — Frite em manteiga até dourar.</li>
+          <li>Auf Teller anrichten. — Sirva no prato.</li>
         </ol>
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-     <iframe width="560" height="315" src="https://www.youtube.com/embed/v2yof9OeDEA?si=dZDU0_9cLpJR9kNP" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/B7y-OhpE7zQ?si=CeQZvspgghDlu_j8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="roesti.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -1140,7 +1278,7 @@
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/vccqw5ycU80?si=ZrAVL9gBefzPhLqZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/f1L0P-gAZ0k?si=M8-79dgtwHYGGRzk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="pasteis.pdf">⬇️ Baixar PDF Completo</button>
     </div>
@@ -1171,12 +1309,12 @@
       </div>
       <div class="recipe-video">
         <h3>Assista o passo a passo:</h3>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/FeO2-iCjIEU?si=Jfu2S2Z_ihpKrAzm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/FeO2-iCjIEU?si=Jfu2S2Z_ihpKrAzm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <button class="btn download" data-pdf="borscht_ru.pdf">⬇️ Baixar PDF Completo</button>
     </div>
   </div>
-  <!-- Rodapé -->
+
   <footer class="main-footer" role="contentinfo" aria-label="Rodapé do site">
     <div class="footer-content">
       <p>© <span id="current-year">2025</span> Descubra Sabores do Mundo — Criado com ❤️ por <strong>Kauã Icaro Gonçalves</strong></p>
@@ -1186,13 +1324,7 @@
     </div>
   </footer>
 
-  <!-- Modais (mantidos iguais ao seu arquivo original) -->
-   
-
   <script src="script.js"></script>
-  <script>
-    // Atualiza ano automaticamente
-    document.getElementById('current-year').textContent = new Date().getFullYear();
-  </script>
 </body>
+
 </html>

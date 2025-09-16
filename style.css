@@ -210,8 +210,33 @@ main {
   border-radius: 50px;
   border: 2px solid #108446;
   font-size: 1rem;
-  background: rgba(255,255,255,0.9);
-  color: var(--text-color);
+  background: rgba(255, 255, 255, 0.95);
+  color: #333; /* Texto sempre escuro para fundo claro */
+  transition: all 0.3s ease;
+}
+
+/* Placeholder */
+#searchInput::placeholder {
+  color: #666;
+  opacity: 1;
+}
+
+/* Estilo no modo escuro */
+[data-theme="dark"] #searchInput {
+  background: rgba(40, 40, 50, 0.95);
+  color: #e0e0e0; /* Texto claro para fundo escuro */
+  border-color: #4ade80; /* Verde mais vivo no dark */
+}
+
+[data-theme="dark"] #searchInput::placeholder {
+  color: #aaa;
+}
+
+/* Foco */
+#searchInput:focus {
+  outline: none;
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.3);
 }
 
 /* Cards container */
