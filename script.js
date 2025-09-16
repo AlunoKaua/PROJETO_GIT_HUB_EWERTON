@@ -345,3 +345,9 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => this.classList.remove('liked'), 600);
       });
     });
+    // ==================== WHATSAPP SHARE DINÂMICO ====================
+document.querySelectorAll('.modal-actions a[href*="whatsapp.com"]').forEach(link => {
+  const recipeName = link.closest('.card-ramen').querySelector('h1').innerText;
+  const baseMessage = `Olha essa receita incrível de ${recipeName}! Descubra sabores do mundo: ${window.location.href}`;
+  link.href = "https://api.whatsapp.com/send?text=" + encodeURIComponent(baseMessage);
+});
