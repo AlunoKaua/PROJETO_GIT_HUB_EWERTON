@@ -1,353 +1,400 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-      // ==================== ÁUDIO ====================
-      const audio = document.getElementById('bg-music');
-      const playPauseBtn = document.getElementById('playPauseBtn');
-      const volumeSlider = document.getElementById('volumeSlider');
-      const volumeLabel = document.getElementById('volumeLabel');
+  // ==================== ÁUDIO ====================
+  const audio = document.getElementById('bg-music');
+  const playPauseBtn = document.getElementById('playPauseBtn');
+  const volumeSlider = document.getElementById('volumeSlider');
+  const volumeLabel = document.getElementById('volumeLabel');
 
-      if (audio && playPauseBtn && volumeSlider) {
-        audio.volume = volumeSlider.value;
+  if (audio && playPauseBtn && volumeSlider) {
+    audio.volume = volumeSlider.value;
 
-        function updateVolumeLabel() {
-          if (volumeLabel) {
-            volumeLabel.textContent = `Volume: ${Math.round(audio.volume * 100)}%`;
-          }
-        }
-        updateVolumeLabel();
+    function updateVolumeLabel() {
+      if (volumeLabel) {
+        volumeLabel.textContent = `Volume: ${Math.round(audio.volume * 100)}%`;
+      }
+    }
+    updateVolumeLabel();
 
-        // Começa em 1:23
-        audio.addEventListener('loadedmetadata', () => {
-          audio.currentTime = 83;
-        });
+    // Começa em 1:23
+    audio.addEventListener('loadedmetadata', () => {
+      audio.currentTime = 83;
+    });
 
-        // Tenta autoplay
+    // Tenta autoplay
+    audio.play().catch(e => {
+      console.log('Autoplay bloqueado pelo navegador.');
+    });
+    audio.muted = false;
+
+    playPauseBtn.addEventListener('click', () => {
+      if (audio.paused) {
         audio.play().catch(e => {
-          console.log('Autoplay bloqueado pelo navegador.');
+          console.log('Erro ao tentar tocar:', e);
+          alert('Seu navegador bloqueou o autoplay. Clique novamente ou interaja com a página.');
         });
-        audio.muted = false;
-
-        playPauseBtn.addEventListener('click', () => {
-          if (audio.paused) {
-            audio.play().catch(e => {
-              console.log('Erro ao tentar tocar:', e);
-              alert('Seu navegador bloqueou o autoplay. Clique novamente ou interaja com a página.');
-            });
-            playPauseBtn.textContent = '⏸️';
-            playPauseBtn.setAttribute('aria-label', 'Pausar música');
-          } else {
-            audio.pause();
-            playPauseBtn.textContent = '▶️';
-            playPauseBtn.setAttribute('aria-label', 'Tocar música');
-          }
-        });
-
-        audio.addEventListener('ended', () => {
-          playPauseBtn.textContent = '▶️';
-          playPauseBtn.setAttribute('aria-label', 'Tocar música');
-        });
-
-        volumeSlider.addEventListener('input', () => {
-          audio.volume = volumeSlider.value;
-          updateVolumeLabel();
-        });
-
-        playPauseBtn.addEventListener('keydown', (e) => {
-          if (e.key === ' ' || e.key === 'Enter') {
-            e.preventDefault();
-            playPauseBtn.click();
-          }
-        });
+        playPauseBtn.textContent = '⏸️';
+        playPauseBtn.setAttribute('aria-label', 'Pausar música');
+      } else {
+        audio.pause();
+        playPauseBtn.textContent = '▶️';
+        playPauseBtn.setAttribute('aria-label', 'Tocar música');
       }
+    });
 
-      // ==================== MODAIS + VÍDEOS ====================
-      function pauseVideosInModal(modal) {
-        const iframes = modal.querySelectorAll('iframe');
-        iframes.forEach(iframe => {
-          const src = iframe.src;
-          iframe.src = '';
-          iframe.src = src;
-        });
-      }
+    audio.addEventListener('ended', () => {
+      playPauseBtn.textContent = '▶️';
+      playPauseBtn.setAttribute('aria-label', 'Tocar música');
+    });
 
-      document.querySelectorAll('.openPdfModal').forEach(button => {
-        button.addEventListener('click', () => {
-          const targetId = button.getAttribute('data-target');
-          const modal = document.getElementById(targetId);
-          if (modal) {
-            modal.style.display = "block";
-            const firstFocusable = modal.querySelector('.close');
-            if (firstFocusable) firstFocusable.focus();
-          }
-        });
-      });
+    volumeSlider.addEventListener('input', () => {
+      audio.volume = volumeSlider.value;
+      updateVolumeLabel();
+    });
 
-      document.querySelectorAll('.close').forEach(span => {
-        span.addEventListener('click', () => {
-          const targetId = span.getAttribute('data-target');
-          const modal = document.getElementById(targetId);
-          if (modal) {
-            pauseVideosInModal(modal);
-            modal.style.display = "none";
-          }
-        });
-      });
-
-      window.addEventListener('click', (event) => {
-        document.querySelectorAll('.modal').forEach(modal => {
-          if (event.target === modal) {
-            pauseVideosInModal(modal);
-            modal.style.display = "none";
-          }
-        });
-      });
-
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-          document.querySelectorAll('.modal').forEach(modal => {
-            if (modal.style.display === 'block') {
-              pauseVideosInModal(modal);
-              modal.style.display = 'none';
-            }
-          });
-        }
-      });
-
-      // ==================== PDF ====================
-      document.querySelectorAll('.download').forEach(button => {
-        button.addEventListener('click', () => {
-          if (typeof window.jspdf === 'undefined') {
-            alert('Biblioteca jsPDF não carregada.');
-            return;
-          }
-
-          const { jsPDF } = window.jspdf;
-          const doc = new jsPDF();
-
-          const modalContent = button.closest('.modal-content');
-          if (!modalContent) return;
-
-          const titleElement = modalContent.querySelector('h2');
-          const title = titleElement ? titleElement.innerText : 'Receita';
-          const fileName = button.getAttribute('data-pdf') || 'receita.pdf';
-
-          doc.setFontSize(20);
-          doc.text(title, 14, 20);
-
-          let y = 35;
-
-          function addSection(doc, title, items, startY) {
-            let currentY = startY;
-            doc.setFontSize(14);
-            doc.text(title, 14, currentY);
-            currentY += 10;
-            doc.setFontSize(12);
-            items.forEach(item => {
-              const lines = doc.splitTextToSize(`• ${item}`, 180);
-              lines.forEach(line => {
-                if (currentY > 280) {
-                  doc.addPage();
-                  currentY = 20;
-                }
-                doc.text(line, 14, currentY);
-                currentY += 8;
-              });
-            });
-            return currentY + 5;
-          }
-
-          const ingredientsSection = modalContent.querySelector('.recipe-text h3:nth-of-type(1)');
-          const ingredientsList = modalContent.querySelectorAll('.recipe-text ul li');
-          if (ingredientsSection && ingredientsList.length > 0) {
-            const ingredientsTitle = ingredientsSection.innerText;
-            const ingredients = Array.from(ingredientsList).map(li => li.innerText);
-            y = addSection(doc, ingredientsTitle, ingredients, y);
-          }
-
-          const stepsSection = modalContent.querySelector('.recipe-text h3:nth-of-type(2)');
-          const stepsList = modalContent.querySelectorAll('.recipe-text ol li');
-          if (stepsSection && stepsList.length > 0) {
-            const stepsTitle = stepsSection.innerText;
-            const steps = Array.from(stepsList).map(li => li.innerText);
-            y = addSection(doc, stepsTitle, steps, y);
-          }
-
-          const pageCount = doc.internal.getNumberOfPages();
-          for (let i = 1; i <= pageCount; i++) {
-            doc.setPage(i);
-            doc.setFontSize(10);
-            doc.setTextColor(100);
-            doc.text(`Página ${i} de ${pageCount}`, 14, 290);
-            doc.text('© Descubra Sabores do Mundo', 14, 295);
-          }
-
-          doc.save(fileName);
-        });
-      });
-
-      // ==================== ACESSIBILIDADE ====================
-      document.querySelector('.skip-link').addEventListener('click', function (e) {
+    playPauseBtn.addEventListener('keydown', (e) => {
+      if (e.key === ' ' || e.key === 'Enter') {
         e.preventDefault();
-        const mainContent = document.getElementById('main-content');
-        if (mainContent) {
-          mainContent.setAttribute('tabindex', '-1');
-          mainContent.focus();
+        playPauseBtn.click();
+      }
+    });
+  }
+
+  // ==================== MODAIS + VÍDEOS ====================
+  function pauseVideosInModal(modal) {
+    const iframes = modal.querySelectorAll('iframe');
+    iframes.forEach(iframe => {
+      const src = iframe.src;
+      iframe.src = '';
+      iframe.src = src;
+    });
+  }
+
+  document.querySelectorAll('.openPdfModal').forEach(button => {
+    button.addEventListener('click', () => {
+      const targetId = button.getAttribute('data-target');
+      const modal = document.getElementById(targetId);
+      if (modal) {
+        modal.style.display = "block";
+        const firstFocusable = modal.querySelector('.close');
+        if (firstFocusable) firstFocusable.focus();
+      }
+    });
+  });
+
+  document.querySelectorAll('.close').forEach(span => {
+    span.addEventListener('click', () => {
+      const targetId = span.getAttribute('data-target');
+      const modal = document.getElementById(targetId);
+      if (modal) {
+        pauseVideosInModal(modal);
+        modal.style.display = "none";
+      }
+    });
+  });
+
+  window.addEventListener('click', (event) => {
+    document.querySelectorAll('.modal').forEach(modal => {
+      if (event.target === modal) {
+        pauseVideosInModal(modal);
+        modal.style.display = "none";
+      }
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal').forEach(modal => {
+        if (modal.style.display === 'block') {
+          pauseVideosInModal(modal);
+          modal.style.display = 'none';
         }
       });
+    }
+  });
 
-      // ==================== SCROLL SUAVE ====================
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-          const href = this.getAttribute('href');
-          if (href === '#') return;
+  // ==================== PDF ====================
+  document.querySelectorAll('.download').forEach(button => {
+    button.addEventListener('click', () => {
+      if (typeof window.jspdf === 'undefined') {
+        alert('Biblioteca jsPDF não carregada.');
+        return;
+      }
 
-          e.preventDefault();
-          const target = document.querySelector(href);
-          if (target) {
-            window.scrollTo({
-              top: target.offsetTop - 100,
-              behavior: 'smooth'
-            });
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
 
-            if (href.startsWith('#modal')) {
-              setTimeout(() => {
-                const modal = document.querySelector(href);
-                if (modal) modal.style.display = 'block';
-              }, 500);
+      const modalContent = button.closest('.modal-content');
+      if (!modalContent) return;
+
+      const titleElement = modalContent.querySelector('h2');
+      const title = titleElement ? titleElement.innerText : 'Receita';
+      const fileName = button.getAttribute('data-pdf') || 'receita.pdf';
+
+      doc.setFontSize(20);
+      doc.text(title, 14, 20);
+
+      let y = 35;
+
+      function addSection(doc, title, items, startY) {
+        let currentY = startY;
+        doc.setFontSize(14);
+        doc.text(title, 14, currentY);
+        currentY += 10;
+        doc.setFontSize(12);
+        items.forEach(item => {
+          const lines = doc.splitTextToSize(`• ${item}`, 180);
+          lines.forEach(line => {
+            if (currentY > 280) {
+              doc.addPage();
+              currentY = 20;
             }
-          }
+            doc.text(line, 14, currentY);
+            currentY += 8;
+          });
         });
-      });
+        return currentY + 5;
+      }
 
-      // ==================== BOTÃO VOLTAR AO TOPO ====================
-      const backToTopButton = document.getElementById('backToTop');
+      const ingredientsSection = modalContent.querySelector('.recipe-text h3:nth-of-type(1)');
+      const ingredientsList = modalContent.querySelectorAll('.recipe-text ul li');
+      if (ingredientsSection && ingredientsList.length > 0) {
+        const ingredientsTitle = ingredientsSection.innerText;
+        const ingredients = Array.from(ingredientsList).map(li => li.innerText);
+        y = addSection(doc, ingredientsTitle, ingredients, y);
+      }
 
-      window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 300) {
-          backToTopButton.classList.add('show');
-        } else {
-          backToTopButton.classList.remove('show');
-        }
-      });
+      const stepsSection = modalContent.querySelector('.recipe-text h3:nth-of-type(2)');
+      const stepsList = modalContent.querySelectorAll('.recipe-text ol li');
+      if (stepsSection && stepsList.length > 0) {
+        const stepsTitle = stepsSection.innerText;
+        const steps = Array.from(stepsList).map(li => li.innerText);
+        y = addSection(doc, stepsTitle, steps, y);
+      }
 
-      backToTopButton.addEventListener('click', () => {
+      const pageCount = doc.internal.getNumberOfPages();
+      for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(10);
+        doc.setTextColor(100);
+        doc.text(`Página ${i} de ${pageCount}`, 14, 290);
+        doc.text('© Descubra Sabores do Mundo', 14, 295);
+      }
+
+      doc.save(fileName);
+    });
+  });
+
+  // ==================== ACESSIBILIDADE ====================
+  document.querySelector('.skip-link').addEventListener('click', function (e) {
+    e.preventDefault();
+    const mainContent = document.getElementById('main-content');
+    if (mainContent) {
+      mainContent.setAttribute('tabindex', '-1');
+      mainContent.focus();
+    }
+  });
+
+  // ==================== SCROLL SUAVE ====================
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (href === '#') return;
+
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
         window.scrollTo({
-          top: 0,
+          top: target.offsetTop - 100,
           behavior: 'smooth'
         });
-      });
 
-      // ==================== ANIMAÇÃO DOS CARDS ====================
-      const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-          }
-        });
-      }, observerOptions);
-
-      document.querySelectorAll('.card-ramen').forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(card);
-      });
-
-      // ==================== BUSCA ====================
-      const searchInput = document.getElementById('searchInput');
-      const cards = document.querySelectorAll('.card-ramen');
-
-      searchInput.addEventListener('input', function () {
-        const query = this.value.toLowerCase();
-        cards.forEach(card => {
-          const title = card.querySelector('h1').innerText.toLowerCase();
-          card.style.display = title.includes(query) ? 'block' : 'none';
-        });
-      });
-
-      // ==================== MODO ESCURO ====================
-      const themeToggle = document.getElementById('themeToggle');
-
-      // Check for saved theme or prefered theme
-      const savedTheme = localStorage.getItem('theme');
-      const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-
-      if (savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches)) {
-        document.body.setAttribute('data-theme', 'dark');
-        themeToggle.textContent = '☀️';
-      } else {
-        document.body.removeAttribute('data-theme'); // Ensure light theme if not dark
-        themeToggle.textContent = '🌙';
+        if (href.startsWith('#modal')) {
+          setTimeout(() => {
+            const modal = document.querySelector(href);
+            if (modal) modal.style.display = 'block';
+          }, 500);
+        }
       }
-
-      themeToggle.addEventListener('click', () => {
-        let currentTheme = document.body.getAttribute('data-theme');
-
-        if (currentTheme === 'dark') {
-          document.body.removeAttribute('data-theme');
-          themeToggle.textContent = '🌙';
-          localStorage.setItem('theme', 'light'); // Save preference
-        } else {
-          document.body.setAttribute('data-theme', 'dark');
-          themeToggle.textContent = '☀️';
-          localStorage.setItem('theme', 'dark'); // Save preference
-        }
-      });
-
     });
-    // ============ SISTEMA DE CURTIDAS ============
-    function loadLikes() {
-      const saved = localStorage.getItem('recipeLikes');
-      return saved ? JSON.parse(saved) : {};
+  });
+
+  // ==================== BOTÃO VOLTAR AO TOPO ====================
+  const backToTopButton = document.getElementById('backToTop');
+
+  window.addEventListener('scroll', () => {
+    if (window.pageYOffset > 300) {
+      backToTopButton.classList.add('show');
+    } else {
+      backToTopButton.classList.remove('show');
     }
+  });
 
-    function saveLikes(likes) {
-      localStorage.setItem('recipeLikes', JSON.stringify(likes));
+  backToTopButton.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+
+  // ==================== ANIMAÇÃO DOS CARDS ====================
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.card-ramen').forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(30px)';
+    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(card);
+  });
+
+  // ==================== BUSCA ====================
+  const searchInput = document.getElementById('searchInput');
+  const cards = document.querySelectorAll('.card-ramen');
+
+  searchInput.addEventListener('input', function () {
+    const query = this.value.toLowerCase();
+    cards.forEach(card => {
+      const title = card.querySelector('h1').innerText.toLowerCase();
+      card.style.display = title.includes(query) ? 'block' : 'none';
+    });
+  });
+
+  // ==================== MODO ESCURO ====================
+  const themeToggle = document.getElementById('themeToggle');
+
+  // Check for saved theme or prefered theme
+  const savedTheme = localStorage.getItem('theme');
+  const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+  if (savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches)) {
+    document.body.setAttribute('data-theme', 'dark');
+    themeToggle.textContent = '☀️';
+  } else {
+    document.body.removeAttribute('data-theme'); // Ensure light theme if not dark
+    themeToggle.textContent = '🌙';
+  }
+
+  themeToggle.addEventListener('click', () => {
+    let currentTheme = document.body.getAttribute('data-theme');
+
+    if (currentTheme === 'dark') {
+      document.body.removeAttribute('data-theme');
+      themeToggle.textContent = '🌙';
+      localStorage.setItem('theme', 'light'); // Save preference
+    } else {
+      document.body.setAttribute('data-theme', 'dark');
+      themeToggle.textContent = '☀️';
+      localStorage.setItem('theme', 'dark'); // Save preference
     }
+  });
 
-    function updateLikeButtons() {
-      const likes = loadLikes();
-      document.querySelectorAll('.like-btn').forEach(btn => {
-        const recipeId = btn.getAttribute('data-recipe');
-        const countSpan = btn.querySelector('.like-count');
-        const count = likes[recipeId] || 0;
-        countSpan.textContent = count;
-        if (count > 0) {
-          btn.classList.add('liked');
-        }
-      });
-    }
+  // ============ SISTEMA DE CURTIDAS ============
+  function loadLikes() {
+    const saved = localStorage.getItem('recipeLikes');
+    return saved ? JSON.parse(saved) : {};
+  }
 
-    // Ao carregar a página, atualiza os contadores
-    updateLikeButtons();
+  function saveLikes(likes) {
+    localStorage.setItem('recipeLikes', JSON.stringify(likes));
+  }
 
-    // Evento de clique nos botões de curtir
+  function updateLikeButtons() {
+    const likes = loadLikes();
     document.querySelectorAll('.like-btn').forEach(btn => {
-      btn.addEventListener('click', function () {
-        const recipeId = this.getAttribute('data-recipe');
-        let likes = loadLikes();
-
-        if (!likes[recipeId]) likes[recipeId] = 0;
-        likes[recipeId]++;
-
-        saveLikes(likes);
-        updateLikeButtons();
-
-        // Efeito visual
-        this.classList.add('liked');
-        setTimeout(() => this.classList.remove('liked'), 600);
-      });
+      const recipeId = btn.getAttribute('data-recipe');
+      const countSpan = btn.querySelector('.like-count');
+      const count = likes[recipeId] || 0;
+      countSpan.textContent = count;
+      // Opcional: manter estado visual da curtida (pode precisar ajustar o CSS)
+      // if (count > 0) {
+      //   btn.classList.add('liked');
+      // } else {
+      //   btn.classList.remove('liked');
+      // }
     });
-    // ==================== WHATSAPP SHARE DINÂMICO ====================
-document.querySelectorAll('.modal-actions a[href*="whatsapp.com"]').forEach(link => {
-  const recipeName = link.closest('.card-ramen').querySelector('h1').innerText;
-  const baseMessage = `Olha essa receita incrível de ${recipeName}! Descubra sabores do mundo: ${window.location.href}`;
-  link.href = "https://api.whatsapp.com/send?text=" + encodeURIComponent(baseMessage);
+  }
+
+  // Ao carregar a página, atualiza os contadores
+  updateLikeButtons();
+
+  // Evento de clique nos botões de curtir - CORRIGIDO
+  document.querySelectorAll('.like-btn').forEach(btn => {
+    btn.addEventListener('click', function (event) {
+      // Impede que o clique no botão de curtir abra o modal
+      event.stopPropagation();
+
+      const recipeId = this.getAttribute('data-recipe');
+      let likes = loadLikes();
+
+      if (!likes[recipeId]) likes[recipeId] = 0;
+      likes[recipeId]++;
+
+      saveLikes(likes);
+      updateLikeButtons(); // Atualiza o contador visual
+
+      // Efeito visual (opcional)
+      this.classList.add('liked');
+      setTimeout(() => this.classList.remove('liked'), 600);
+    });
+  });
+
+  // ==================== WHATSAPP SHARE DINÂMICO ====================
+  // Defina o URL base do seu site aqui
+  const BASE_URL = "https://alunokaua.github.io/PROJETO_GIT_HUB_EWERTON/";
+
+  // Função para atualizar o link do WhatsApp
+  function updateWhatsAppLinks() {
+    document.querySelectorAll('.modal-actions a[href*="whatsapp.com"]').forEach(link => {
+      // Encontra o modal pai para identificar a receita
+      const modal = link.closest('.modal');
+      if (modal) {
+        // Tenta encontrar o título da receita dentro do modal
+        const titleElement = modal.querySelector('h2'); // Assume que o h2 do modal contém o nome
+        if (titleElement) {
+          const recipeName = titleElement.innerText.replace('Receita: ', ''); // Remove prefixo se existir
+
+          // Monta a mensagem
+          const baseMessage = `Olha essa receita incrível de ${recipeName}! Descubra sabores do mundo: ${BASE_URL}`;
+          // Atualiza o href do link
+          link.href = "https://api.whatsapp.com/send?text=" + encodeURIComponent(baseMessage);
+        }
+      }
+    });
+  }
+
+  // Atualiza os links ao abrir os modais
+  document.querySelectorAll('.openPdfModal').forEach(button => {
+    button.addEventListener('click', () => {
+      // Código existente para abrir o modal
+      const targetId = button.getAttribute('data-target');
+      const modal = document.getElementById(targetId);
+      if (modal) {
+        modal.style.display = "block";
+        const firstFocusable = modal.querySelector('.close');
+        if (firstFocusable) firstFocusable.focus();
+
+        // Atualiza o link do WhatsApp após o modal ser aberto
+        // Um pequeno atraso pode ser necessário se o conteúdo do modal for carregado dinamicamente
+        // Mas como está no HTML, podemos chamar diretamente
+         setTimeout(updateWhatsAppLinks, 100); // Pequeno atraso para garantir que o DOM do modal esteja pronto
+      }
+    });
+  });
+
+  // Também pode ser útil atualizar ao carregar a página, caso os links estejam visíveis inicialmente
+  // updateWhatsAppLinks(); // Geralmente não é necessário se os links estão dentro dos modais
+
 });
